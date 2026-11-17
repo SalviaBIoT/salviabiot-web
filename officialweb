@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SalviaBIoT | Biological Internet of Things</title>
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-void: #030a07;
+      --bg-panel: rgba(8, 22, 16, 0.72);
+      --neon-green: #00ff88;
+      --emerald-dim: #059669;
+      --mandarin-glow: #ff8c32;
+      --border-cyber: rgba(0, 255, 136, 0.25);
+      --text-main: #e6f7ef;
+      --text-muted: #84a596;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg-void);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 255, 136, 0.14) 0%, transparent 55%),
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 36px 36px, 36px 36px;
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* Barra superior tipo terminal */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-cyber);
+      margin-bottom: 3.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 4px;
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid var(--border-cyber);
+      color: var(--neon-green);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-green);
+      box-shadow: 0 0 12px var(--neon-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 4.5rem;
+    }
+
+    .hero-kicker {
+      color: var(--neon-green);
+      font-size: 0.88rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 35px rgba(0, 255, 136, 0.22);
+    }
+
+    h1 span {
+      color: var(--neon-green);
+    }
+
+    .hero-tagline {
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: #c2e6d5;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      max-width: 680px;
+      margin: 0 auto 2.2rem;
+    }
+
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--neon-green);
+      color: #02120a;
+      font-weight: 700;
+      padding: 0.85rem 1.7rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      box-shadow: 0 0 24px rgba(0, 255, 136, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(0, 255, 136, 0.55);
+    }
+
+    .btn-secondary {
+      background: rgba(0, 255, 136, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border-cyber);
+      padding: 0.85rem 1.7rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 136, 0.12);
+    }
+
+    /* Matriz del Ecosistema */
+    .section-header {
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--neon-green);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-cyber), transparent);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.4rem;
+      margin-bottom: 4rem;
+    }
+
+    .card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-cyber);
+      border-radius: 10px;
+      padding: 1.75rem;
+      position: relative;
+      backdrop-filter: blur(10px);
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--neon-green);
+    }
+
+    .card-code {
+      font-size: 0.75rem;
+      color: var(--neon-green);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .card-code.mandarin {
+      color: var(--mandarin-glow);
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.7rem;
+      color: #ffffff;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.93rem;
+    }
+
+    /* Manifiesto / Filosofía */
+    .manifesto-box {
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.06), rgba(3, 10, 7, 0.9));
+      border: 1px solid var(--border-cyber);
+      border-left: 4px solid var(--neon-green);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .manifesto-box h3 {
+      font-size: 1.15rem;
+      color: var(--neon-green);
+      margin-bottom: 0.8rem;
+    }
+
+    .manifesto-box p {
+      color: #c2e6d5;
+      font-size: 0.96rem;
+    }
+
+    /* Footer y Firma del Fundador */
+    footer {
+      border-top: 1px solid var(--border-cyber);
+      padding-top: 2.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .founder-info strong {
+      color: #ffffff;
+      display: block;
+      font-size: 0.98rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .links-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .links-col a {
+      color: var(--neon-green);
+      text-decoration: none;
+    }
+
+    .links-col a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Barra superior -->
+    <header class="topbar mono">
+      <div>SYS://SALVIABIOT.COM · V0.1-ALPHA</div>
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Ecosistema en despliegue · Colombia</span>
+      </div>
+    </header>
+
+    <!-- Sección Principal -->
+    <section class="hero">
+      <div class="hero-kicker mono">Biological Internet of Things</div>
+      <h1>Salvia<span>BIoT</span></h1>
+      <p class="hero-tagline">
+        Infraestructura de inteligencia ambiental y telemetría biológica para dar voz digital a los ecosistemas vivos.
+      </p>
+      <p class="hero-desc">
+        Integramos hardware de bajo consumo en campo, procesamiento en el borde (Edge AI) e inteligencia artificial modular para escuchar, interpretar y proteger bosques altoandinos, páramos y cuencas hídricas.
+      </p>
+      <div class="cta-group">
+        <a href="mailto:felipe@salviabiot.com" class="btn-primary mono">Contactar al Fundador</a>
+        <a href="mailto:contacto@salviabiot.com" class="btn-secondary mono">Alianzas &amp; Pilotos</a>
+      </div>
+    </section>
+
+    <!-- Arquitectura del Ecosistema -->
+    <div class="section-header">
+      <h2 class="mono">// Arquitectura del Ecosistema</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <section class="grid">
+      <article class="card">
+        <span class="card-code mono">[01 // HARDWARE DE CAMPO]</span>
+        <h3>TerraBit Station</h3>
+        <p>
+          Nodos autónomos de monitoreo microclimático e hidrológico desplegados en el territorio. Capturan los signos vitales del suelo y la atmósfera en tiempo real sin perturbar el entorno.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card-code mono">[02 // CORE AI ENGINE]</span>
+        <h3>Savia</h3>
+        <p>
+          Motor central de inteligencia ambiental. Cruza series de tiempo, modela la memoria histórica del bosque y detecta anomalías ecológicas antes de que ocurra degradación crítica.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="card-code mandarin mono">[03 // SUBAGENTE MODULAR]</span>
+        <h3>Mandarín</h3>
+        <p>
+          Orquestador e intérprete inteligente que fragmenta flujos complejos de telemetría (JSON) en módulos claros y alertas accionables para investigadores, guardabosques y comunidades.
+        </p>
+      </article>
+    </section>
+
+    <!-- Propósito -->
+    <section class="manifesto-box">
+      <h3 class="mono">&gt;_ Reciprocidad Tecnológica &amp; Conservación</h3>
+      <p>
+        Inspirado en el verbo latino <em>salvare</em> (sanar y conservar) y en la sabiduría ancestral de los bosques, <strong>SalviaBIoT</strong> transforma datos binarios en decisiones reales de protección ambiental y agricultura regenerativa de precisión.
+      </p>
+    </section>
+
+    <!-- Pie de página con firma -->
+    <footer>
+      <div class="founder-info">
