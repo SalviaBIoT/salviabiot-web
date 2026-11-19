@@ -1,11 +1,13 @@
 import {
   BatteryCharging,
+  Clock,
   Droplets,
   Pause,
   Play,
   RotateCcw,
   SlidersHorizontal,
   Sparkles,
+  Sun,
   Terminal,
   Thermometer,
   Wind,
@@ -28,7 +30,7 @@ const SEVERITY_STYLES = {
   optimal: "border-[#00ff88]/35 bg-[#00ff88]/10 text-[#00ff88]",
   warning: "border-[#f97316]/45 bg-[#f97316]/15 text-[#fb923c]",
   critical: "border-rose-500/50 bg-rose-500/15 text-rose-300",
-  info: "border-sky-400/35 bg-sky-400/10 text-sky-300",
+  info: "border-[#facc15]/35 bg-[#facc15]/10 text-[#facc15]",
 } as const;
 
 const OVERALL_BADGE_STYLES = {
@@ -105,7 +107,9 @@ export function MandarinShowcase({
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-2 rounded-full border border-[#f97316]/40 bg-[#f97316]/12 px-3 py-1 font-mono text-[11px] font-semibold tracking-wider text-[#fb923c] uppercase">
-                  <span>{analyzing ? "Analizando sensores" : "Mandarín en vivo"}</span>
+                  <span>
+                    {analyzing ? "Analizando sensores" : "Mandarín en vivo"}
+                  </span>
                   <span className="inline-flex gap-1" aria-hidden="true">
                     <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
                     <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
@@ -129,7 +133,7 @@ export function MandarinShowcase({
               <p className="mt-2 max-w-xl text-sm text-[#c2e6d5]">
                 Ajusta los controles de abajo para simular cambios reales en el
                 terreno. <strong>Mandarín</strong> interpreta cada variación al
-                instante y te entrega recomendaciones claras.
+                instante y coordina alertas y riego automatizado.
               </p>
             </div>
           </div>
@@ -154,7 +158,7 @@ export function MandarinShowcase({
           </button>
         </div>
 
-        {/* Selector de escenario base + botón restablecer */}
+        {/* Selector de estación solar INTI + botón restablecer */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap gap-2">
             {SENSOR_PRESETS.map((preset, idx) => {
@@ -165,13 +169,17 @@ export function MandarinShowcase({
                   type="button"
                   onClick={() => handleSelectPreset(idx)}
                   aria-pressed={active}
-                  className={`min-h-[40px] cursor-pointer rounded-md border px-3.5 py-2 font-mono text-xs transition-colors ${
+                  className={`inline-flex min-h-[40px] cursor-pointer items-center gap-1.5 rounded-md border px-3.5 py-2 font-mono text-xs transition-colors ${
                     active
                       ? "border-[#f97316] bg-[#f97316]/20 font-semibold text-white"
-                      : "border-white/15 bg-[#040e09]/80 text-[#84a596] hover:border-[#f97316]/50 hover:text-[#e6f7ef]"
+                      : "border-white/15 bg-[#040e09]/80 text-[#84a596] hover:border-[#facc15]/50 hover:text-[#e6f7ef]"
                   }`}
                 >
-                  {preset.stationId}
+                  <Sun
+                    className="h-3.5 w-3.5 text-[#facc15]"
+                    aria-hidden="true"
+                  />
+                  <span>{preset.stationId}</span>
                 </button>
               );
             })}
@@ -187,15 +195,18 @@ export function MandarinShowcase({
           </button>
         </div>
 
-        {/* Panel interactivo: Controles + Paquete de Sensores -> Gajos de Mandarín */}
-        <div className="mt-6 grid gap-5 lg:grid-cols-12">
-          {/* Columna izquierda: Controles editables + Paquete en vivo */}
+        {/* Panel interactivo equilibrado: Izquierda (Sensores + Paquete + Riego) | Derecha (Diagnóstico + 3 Gajos) */}
+        <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-12">
+          {/* Columna izquierda */}
           <div className="flex flex-col gap-4 lg:col-span-5">
             {/* Controles de sensores */}
             <div className="rounded-xl border border-[#f97316]/25 bg-[#030b07]/95 p-4 sm:p-5">
               <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-2.5 font-mono text-[11px] text-[#fb923c]">
                 <span className="inline-flex items-center gap-1.5 font-semibold">
-                  <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
+                  <SlidersHorizontal
+                    className="h-3.5 w-3.5"
+                    aria-hidden="true"
+                  />
                   INYECTAR LECTURAS DE SENSORES
                 </span>
                 <span className="text-[#84a596]">EDITABLE</span>
@@ -295,7 +306,7 @@ export function MandarinShowcase({
                   />
                 </div>
 
-                {/* Batería del nodo */}
+                {/* Batería solar del nodo INTI */}
                 <div>
                   <div className="mb-1.5 flex items-center justify-between text-xs">
                     <label
@@ -303,12 +314,12 @@ export function MandarinShowcase({
                       className="inline-flex items-center gap-1.5 font-medium text-[#e6f7ef]"
                     >
                       <BatteryCharging
-                        className="h-3.5 w-3.5 text-[#00ff88]"
+                        className="h-3.5 w-3.5 text-[#facc15]"
                         aria-hidden="true"
                       />
-                      Batería de la estación
+                      Batería solar INTI
                     </label>
-                    <span className="tabular-nums font-mono font-bold text-[#e6f7ef]">
+                    <span className="tabular-nums font-mono font-bold text-[#facc15]">
                       {reading.batteryV.toFixed(2)} V
                     </span>
                   </div>
@@ -341,6 +352,61 @@ export function MandarinShowcase({
                 <code>{diagnosis.formattedPacket}</code>
               </pre>
             </div>
+
+            {/* Nuevo Panel Dinámico: Riego Automatizado y Programado (cierra el espacio negativo) */}
+            <div className="flex-1 rounded-xl border border-[#c68b53]/35 bg-[linear-gradient(145deg,rgba(198,139,83,0.1)_0%,rgba(4,14,10,0.94)_60%)] p-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+                <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-[#c68b53]">
+                  <Droplets className="h-3.5 w-3.5" aria-hidden="true" />
+                  RIEGO AUTOMATIZADO &amp; PROGRAMADO
+                </span>
+                <span
+                  className={`rounded border px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider uppercase ${
+                    SEVERITY_STYLES[diagnosis.irrigation.severity]
+                  }`}
+                >
+                  {diagnosis.irrigation.mode}
+                </span>
+              </div>
+
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center font-mono">
+                <div className="rounded-lg border border-white/10 bg-[#030b07]/90 px-2 py-2">
+                  <span className="block text-[10px] text-[#84a596]">
+                    DURACIÓN
+                  </span>
+                  <strong className="tabular-nums text-sm text-white">
+                    {diagnosis.irrigation.durationMin} min
+                  </strong>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#030b07]/90 px-2 py-2">
+                  <span className="block text-[10px] text-[#84a596]">
+                    LÁMINA
+                  </span>
+                  <strong className="tabular-nums text-sm text-[#00ff88]">
+                    {diagnosis.irrigation.volumeLitersPerM2} L/m²
+                  </strong>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-[#030b07]/90 px-2 py-2">
+                  <span className="block text-[10px] text-[#84a596]">
+                    AHORRO
+                  </span>
+                  <strong className="tabular-nums text-sm text-[#facc15]">
+                    {diagnosis.irrigation.waterSavingPct} %
+                  </strong>
+                </div>
+              </div>
+
+              <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] text-[#e6f7ef]">
+                <Clock
+                  className="h-3.5 w-3.5 text-[#c68b53]"
+                  aria-hidden="true"
+                />
+                <span>Ventana: {diagnosis.irrigation.windowLabel}</span>
+              </p>
+              <p className="mt-1 text-xs text-[#b7d7c8]">
+                {diagnosis.irrigation.note}
+              </p>
+            </div>
           </div>
 
           {/* Columna derecha: Respuesta inteligente en Gajos */}
@@ -355,7 +421,7 @@ export function MandarinShowcase({
             {diagnosis.slices.map((slice) => (
               <article
                 key={slice.id}
-                className="rounded-xl border border-[#f97316]/25 bg-[#07150f]/90 p-5 transition-colors"
+                className="flex-1 rounded-xl border border-[#f97316]/25 bg-[#07150f]/90 p-5 transition-colors"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span

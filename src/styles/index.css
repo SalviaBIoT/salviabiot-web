@@ -1,5 +1,7 @@
-@import "@fontsource/syne/700.css";
-@import "@fontsource/syne/800.css";
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
 @import "@fontsource/plus-jakarta-sans/400.css";
 @import "@fontsource/plus-jakarta-sans/500.css";
 @import "@fontsource/plus-jakarta-sans/600.css";
@@ -12,7 +14,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Syne", "Plus Jakarta Sans", sans-serif;
+  --font-display: "Outfit", "Plus Jakarta Sans", sans-serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
@@ -20,7 +22,8 @@
 }
 
 /* ==========================================================================
-   SalviaBIoT — Cyberpunk Bio-Tech Design System (v1.1)
+   SalviaBIoT — Cyberpunk Bio-Tech Design System (v1.2)
+   Paleta: Esmeralda Savia · Amarillo Solar INTI · Naranja Mandarín · Ámbar Tierra
    ========================================================================== */
 :root {
   color-scheme: dark;
@@ -33,6 +36,14 @@
   --neon-green: #00ff88;
   --emerald-core: #10b981;
   --emerald-dim: #059669;
+
+  --inti-solar: #facc15;
+  --inti-gold: #eab308;
+  --inti-border: rgba(250, 204, 21, 0.34);
+
+  --earth-amber: #c68b53;
+  --earth-coffee: #9a6534;
+  --earth-border: rgba(198, 139, 83, 0.34);
 
   --mandarin-primary: #f97316;
   --mandarin-glow: #ff8c32;
@@ -67,11 +78,12 @@ body {
   min-height: 100dvh;
   background-color: var(--bg-void);
   background-image:
-    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0, 255, 136, 0.16) 0%, transparent 60%),
-    radial-gradient(circle at 85% 32%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
-    linear-gradient(rgba(0, 255, 136, 0.032) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.032) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    radial-gradient(ellipse 78% 42% at 50% 0%, rgba(0, 255, 136, 0.14) 0%, transparent 58%),
+    radial-gradient(circle at 14% 26%, rgba(198, 139, 83, 0.08) 0%, transparent 38%),
+    radial-gradient(circle at 86% 34%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
   color: var(--text-main);
   font-family: var(--font-sans);
   line-height: 1.6;
@@ -85,21 +97,27 @@ body {
   outline-offset: 3px;
 }
 
-/* Tipografía Display Futurista y Orgánica */
+/* Tipografía Display: amena, orgánica y tecnológica (Outfit) */
 .brand-title {
   font-family: var(--font-display);
-  font-size: clamp(3.4rem, 11vw, 7.25rem);
-  font-weight: 800;
-  line-height: 0.96;
-  letter-spacing: -0.04em;
+  font-size: clamp(3.5rem, 9.5vw, 6.75rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+}
+
+.brand-title-organic {
+  color: #f4fbf7;
+  font-weight: 600;
 }
 
 .brand-title-accent {
-  background: linear-gradient(120deg, #00ff88 0%, #6ee7b7 52%, #00ff88 100%);
+  background: linear-gradient(115deg, #00ff88 0%, #6ee7b7 48%, #facc15 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 28px rgba(0, 255, 136, 0.42));
+  font-weight: 800;
+  filter: drop-shadow(0 0 26px rgba(0, 255, 136, 0.36));
 }
 
 /* Números tabulares para telemetría */
@@ -155,6 +173,21 @@ body {
     0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
+.cyber-panel-solar {
+  background: linear-gradient(
+    145deg,
+    rgba(250, 204, 21, 0.08) 0%,
+    rgba(198, 139, 83, 0.06) 35%,
+    rgba(8, 22, 16, 0.88) 70%,
+    rgba(3, 10, 7, 0.94) 100%
+  );
+  border: 1px solid var(--inti-border);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(250, 204, 21, 0.14),
+    0 14px 36px rgba(0, 0, 0, 0.48);
+}
+
 .cyber-panel-mandarin {
   background: linear-gradient(
     145deg,
@@ -167,6 +200,20 @@ body {
   box-shadow:
     inset 0 1px 0 rgba(251, 146, 60, 0.14),
     0 16px 40px rgba(0, 0, 0, 0.52);
+}
+
+.cyber-panel-earth {
+  background: linear-gradient(
+    145deg,
+    rgba(198, 139, 83, 0.1) 0%,
+    rgba(8, 22, 16, 0.86) 55%,
+    rgba(3, 10, 7, 0.94) 100%
+  );
+  border: 1px solid var(--earth-border);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(198, 139, 83, 0.16),
+    0 14px 36px rgba(0, 0, 0, 0.48);
 }
 
 /* Modal nativo <dialog> accesible */

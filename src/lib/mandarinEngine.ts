@@ -19,12 +19,23 @@ export interface MandarinSlice {
   action: string;
 }
 
+export interface IrrigationPlan {
+  mode: "INMEDIATO" | "PROGRAMADO" | "EN ESPERA" | "SUSPENDIDO";
+  severity: "optimal" | "warning" | "critical" | "info";
+  durationMin: number;
+  volumeLitersPerM2: number;
+  windowLabel: string;
+  waterSavingPct: number;
+  note: string;
+}
+
 export interface MandarinDiagnosis {
   vpdKpa: number;
   overallStatus: "ESTABLE" | "PRECAUCIÓN" | "ALERTA CRÍTICA";
   overallSeverity: "optimal" | "warning" | "critical";
   headline: string;
   slices: MandarinSlice[];
+  irrigation: IrrigationPlan;
   formattedPacket: string;
 }
 
@@ -69,9 +80,68 @@ export function calculateVpdKpa(tempC: number, relHumidityPct: number): number {
 }
 
 /**
+ * Calcula el plan dinámico de riego automatizado y programado
+ * según humedad del suelo, demanda evaporativa y temperatura.
+ */
+function buildIrrigationPlan(
+  reading: SensorReading,
+  vpdKpa: number
+): IrrigationPlan {
+  if (reading.soilMoisturePct > 80) {
+    return {
+      mode: "SUSPENDIDO",
+      severity: "warning",
+      durationMin: 0,
+      volumeLitersPerM2: 0,
+      windowLabel: "Bloqueado por alta saturación",
+      waterSavingPct: 100,
+      note: "Válvula cerrada automáticamente para proteger raíces y evitar desperdicio.",
+    };
+  }
+
+  if (reading.soilMoisturePct < 24) {
+    const durationMin = vpdKpa >= 1.8 ? 28 : 22;
+    const volumeLitersPerM2 = Number((durationMin * 0.24).toFixed(1));
+    return {
+      mode: "INMEDIATO",
+      severity: "critical",
+      durationMin,
+      volumeLitersPerM2,
+      windowLabel: "Pulso de rescate · Baja radiación",
+      waterSavingPct: 34,
+      note: "Activación automatizada en pulsos cortos para máxima absorción radicular.",
+    };
+  }
+
+  if (reading.soilMoisturePct < 40) {
+    const durationMin = vpdKpa >= 1.4 ? 18 : 14;
+    const volumeLitersPerM2 = Number((durationMin * 0.21).toFixed(1));
+    return {
+      mode: "PROGRAMADO",
+      severity: "warning",
+      durationMin,
+      volumeLitersPerM2,
+      windowLabel: "17:30 – 18:10 · Atardecer",
+      waterSavingPct: 46,
+      note: "Riego diferido al atardecer para reducir pérdidas por evaporación.",
+    };
+  }
+
+  return {
+    mode: "EN ESPERA",
+    severity: "optimal",
+    durationMin: 0,
+    volumeLitersPerM2: 0,
+    windowLabel: "Próxima revisión en 15 min",
+    waterSavingPct: 100,
+    note: "Humedad suficiente en el suelo; riego automatizado en reposo inteligente.",
+  };
+}
+
+/**
  * Motor interpretativo de Mandarín:
  * Toma las lecturas en vivo de los sensores y las divide en 3 "gajos"
- * de diagnóstico claro y accionable para personas en campo.
+ * de diagnóstico claro y accionable + plan de riego automatizado.
  */
 export function analyzeWithMandarin(reading: SensorReading): MandarinDiagnosis {
   const vpdKpa = calculateVpdKpa(reading.airTempC, reading.relHumidityPct);
@@ -154,10 +224,7 @@ export function analyzeWithMandarin(reading: SensorReading): MandarinDiagnosis {
       action:
         "Monitorear evolución vespertina antes de decidir riego suplementario.",
     });
-  } else if (
-    reading.relHumidityPct >= 90 &&
-    reading.biomeType === "cafe"
-  ) {
+  } else if (reading.relHumidityPct >= 90 && reading.biomeType === "cafe") {
     slices.push({
       id: "microclima",
       label: "GAJO 02 · MICROCLIMA",
@@ -179,39 +246,40 @@ export function analyzeWithMandarin(reading: SensorReading): MandarinDiagnosis {
   }
 
   // -------------------------------------------------------------------------
-  // GAJO 03: Autonomía Energética de la Estación
+  // GAJO 03: Autonomía Energética Solar de la Estación INTI
   // -------------------------------------------------------------------------
   if (reading.batteryV < 3.45) {
     slices.push({
       id: "energia",
-      label: "GAJO 03 · SALUD DE LA ESTACIÓN",
+      label: "GAJO 03 · ENERGÍA SOLAR INTI",
       severity: "critical",
       title: "Batería crítica en nodo de campo",
-      summary: `Voltaje en ${reading.batteryV.toFixed(2)} V. La estación entrará en sueño profundo para resguardar los datos almacenados.`,
+      summary: `Voltaje en ${reading.batteryV.toFixed(2)} V. La estación INTI entrará en sueño profundo para resguardar los datos almacenados.`,
       action:
         "Revisar limpieza del panel solar o planificar relevo de batería en sitio.",
     });
   } else if (reading.batteryV < 3.72) {
     slices.push({
       id: "energia",
-      label: "GAJO 03 · SALUD DE LA ESTACIÓN",
+      label: "GAJO 03 · ENERGÍA SOLAR INTI",
       severity: "warning",
-      title: "Modo ahorro energético activo",
+      title: "Modo ahorro solar activo",
       summary: `Voltaje en ${reading.batteryV.toFixed(2)} V. Frecuencia de transmisión reducida automáticamente para extender autonomía.`,
       action: "Verificar horas de sol en los próximos días desde la plataforma.",
     });
   } else {
     slices.push({
       id: "energia",
-      label: "GAJO 03 · SALUD DE LA ESTACIÓN",
+      label: "GAJO 03 · ENERGÍA SOLAR INTI",
       severity: "info",
-      title: "Autonomía energética nominal",
-      summary: `Batería saludable en ${reading.batteryV.toFixed(2)} V con memoria interna sincronizada sin pérdida de lecturas.`,
+      title: "Autonomía solar y batería nominal",
+      summary: `Batería saludable en ${reading.batteryV.toFixed(2)} V con carga solar estable y memoria sincronizada sin pérdida de lecturas.`,
       action: "Sin intervención técnica requerida en campo.",
     });
   }
 
-  // Estado global calculado a partir de los 3 gajos
+  const irrigation = buildIrrigationPlan(reading, vpdKpa);
+
   const hasCritical = slices.some((s) => s.severity === "critical");
   const hasWarning = slices.some((s) => s.severity === "warning");
 
@@ -239,12 +307,12 @@ export function analyzeWithMandarin(reading: SensorReading): MandarinDiagnosis {
       ? "ATENCION_PREVENTIVA"
       : "LECTURA_CALIBRADA_OK";
 
-  const formattedPacket = `estacion:       "${reading.stationId.split(" · ")[0]}"
+  const formattedPacket = `estacion_solar: "${reading.stationId.split(" · ")[0]}"
 humedad_suelo:  ${reading.soilMoisturePct} %
 temperatura:    ${reading.airTempC.toFixed(1)} °C
 humedad_aire:   ${reading.relHumidityPct} %
 indice_sequia:  ${vpdKpa} kPa
-bateria_nodo:   ${reading.batteryV.toFixed(2)} V
+bateria_inti:   ${reading.batteryV.toFixed(2)} V
 estado_paquete: "${qualityFlag}"`;
 
   return {
@@ -253,6 +321,7 @@ estado_paquete: "${qualityFlag}"`;
     overallSeverity,
     headline,
     slices,
+    irrigation,
     formattedPacket,
   };
 }
