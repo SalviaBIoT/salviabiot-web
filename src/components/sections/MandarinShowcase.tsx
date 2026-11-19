@@ -1,6 +1,21 @@
-import { Pause, Play, Sparkles, Terminal } from "lucide-react";
-import { useState } from "react";
-import { MANDARIN_SCENARIOS } from "../../data/ecosystem";
+import {
+  BatteryCharging,
+  Droplets,
+  Pause,
+  Play,
+  RotateCcw,
+  SlidersHorizontal,
+  Sparkles,
+  Terminal,
+  Thermometer,
+  Wind,
+} from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  analyzeWithMandarin,
+  SENSOR_PRESETS,
+  type SensorReading,
+} from "../../lib/mandarinEngine";
 import { MandarinoAvatar } from "../common/MandarinoAvatar";
 import { SectionHeader } from "../common/SectionHeader";
 
@@ -12,30 +27,67 @@ interface MandarinShowcaseProps {
 const SEVERITY_STYLES = {
   optimal: "border-[#00ff88]/35 bg-[#00ff88]/10 text-[#00ff88]",
   warning: "border-[#f97316]/45 bg-[#f97316]/15 text-[#fb923c]",
+  critical: "border-rose-500/50 bg-rose-500/15 text-rose-300",
   info: "border-sky-400/35 bg-sky-400/10 text-sky-300",
+} as const;
+
+const OVERALL_BADGE_STYLES = {
+  optimal: "border-[#00ff88]/40 bg-[#00ff88]/12 text-[#00ff88]",
+  warning: "border-[#f97316]/50 bg-[#f97316]/15 text-[#fb923c]",
+  critical: "border-rose-500/55 bg-rose-500/18 text-rose-300",
 } as const;
 
 export function MandarinShowcase({
   motionPaused,
   onToggleMotion,
 }: MandarinShowcaseProps) {
-  const [scenarioIndex, setScenarioIndex] = useState(0);
+  const [presetIndex, setPresetIndex] = useState(0);
+  const [reading, setReading] = useState<SensorReading>(SENSOR_PRESETS[0]);
   const [analyzing, setAnalyzing] = useState(false);
+  const timerRef = useRef<number | null>(null);
 
-  const current = MANDARIN_SCENARIOS[scenarioIndex];
+  const diagnosis = useMemo(() => analyzeWithMandarin(reading), [reading]);
 
-  function handleSelectScenario(index: number) {
-    if (index === scenarioIndex) return;
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) {
+        window.clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
+
+  function triggerPulse() {
     setAnalyzing(true);
-    setScenarioIndex(index);
-    window.setTimeout(() => setAnalyzing(false), 650);
+    if (timerRef.current !== null) {
+      window.clearTimeout(timerRef.current);
+    }
+    timerRef.current = window.setTimeout(() => setAnalyzing(false), 550);
+  }
+
+  function handleSelectPreset(index: number) {
+    setPresetIndex(index);
+    setReading({ ...SENSOR_PRESETS[index] });
+    triggerPulse();
+  }
+
+  function handleReset() {
+    setReading({ ...SENSOR_PRESETS[presetIndex] });
+    triggerPulse();
+  }
+
+  function updateField<K extends keyof SensorReading>(
+    key: K,
+    value: SensorReading[K]
+  ) {
+    setReading((prev) => ({ ...prev, [key]: value }));
+    triggerPulse();
   }
 
   return (
     <section id="mandarin" className="scroll-reveal scroll-mt-24 py-14">
       <SectionHeader
         code="// 02"
-        title="Mandarín · Subagente Modular en Vivo"
+        title="Mandarín · Laboratorio Interactivo en Vivo"
         accent="mandarin"
       />
 
@@ -51,22 +103,33 @@ export function MandarinShowcase({
             />
 
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#f97316]/40 bg-[#f97316]/12 px-3 py-1 font-mono text-[11px] font-semibold tracking-wider text-[#fb923c] uppercase">
-                <span>Subagente Activo</span>
-                <span className="inline-flex gap-1" aria-hidden="true">
-                  <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
-                  <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
-                  <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#f97316]/40 bg-[#f97316]/12 px-3 py-1 font-mono text-[11px] font-semibold tracking-wider text-[#fb923c] uppercase">
+                  <span>{analyzing ? "Analizando sensores" : "Mandarín en vivo"}</span>
+                  <span className="inline-flex gap-1" aria-hidden="true">
+                    <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
+                    <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
+                    <span className="mandarino-dot h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
+                  </span>
+                </span>
+
+                <span
+                  aria-live="polite"
+                  className={`rounded-full border px-3 py-1 font-mono text-[11px] font-bold tracking-wider uppercase ${
+                    OVERALL_BADGE_STYLES[diagnosis.overallSeverity]
+                  }`}
+                >
+                  {diagnosis.overallStatus}
                 </span>
               </div>
 
               <h3 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
-                De JSON crudo a «gajos» de decisión
+                De datos de sensores a «gajos» de decisión
               </h3>
               <p className="mt-2 max-w-xl text-sm text-[#c2e6d5]">
-                Mandarín fragmenta la telemetría de <strong>TerraBit Station</strong>{" "}
-                y los modelos de <strong>Savia</strong> en módulos comprensibles
-                para quienes protegen el territorio.
+                Ajusta los controles de abajo para simular cambios reales en el
+                terreno. <strong>Mandarín</strong> interpreta cada variación al
+                instante y te entrega recomendaciones claras.
               </p>
             </div>
           </div>
@@ -91,16 +154,16 @@ export function MandarinShowcase({
           </button>
         </div>
 
-        {/* Selector de escenario de campo */}
+        {/* Selector de escenario base + botón restablecer */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap gap-2">
-            {MANDARIN_SCENARIOS.map((scenario, idx) => {
-              const active = idx === scenarioIndex;
+            {SENSOR_PRESETS.map((preset, idx) => {
+              const active = idx === presetIndex;
               return (
                 <button
-                  key={scenario.id}
+                  key={preset.biomeType}
                   type="button"
-                  onClick={() => handleSelectScenario(idx)}
+                  onClick={() => handleSelectPreset(idx)}
                   aria-pressed={active}
                   className={`min-h-[40px] cursor-pointer rounded-md border px-3.5 py-2 font-mono text-xs transition-colors ${
                     active
@@ -108,39 +171,191 @@ export function MandarinShowcase({
                       : "border-white/15 bg-[#040e09]/80 text-[#84a596] hover:border-[#f97316]/50 hover:text-[#e6f7ef]"
                   }`}
                 >
-                  {scenario.station}
+                  {preset.stationId}
                 </button>
               );
             })}
           </div>
 
-          <span className="font-mono text-xs text-[#84a596]">
-            {current.biome}
-          </span>
+          <button
+            type="button"
+            onClick={handleReset}
+            className="inline-flex min-h-[38px] cursor-pointer items-center gap-1.5 rounded-md border border-white/15 bg-[#040e09]/80 px-3 py-1.5 font-mono text-xs text-[#b7d7c8] transition-colors hover:border-[#00ff88]/50 hover:text-[#00ff88]"
+          >
+            <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+            <span>Restablecer</span>
+          </button>
         </div>
 
-        {/* Pipeline visual: Entrada JSON -> Salida en Gajos */}
+        {/* Panel interactivo: Controles + Paquete de Sensores -> Gajos de Mandarín */}
         <div className="mt-6 grid gap-5 lg:grid-cols-12">
-          {/* Trama cruda del nodo */}
-          <div className="rounded-xl border border-[#00ff88]/20 bg-[#020906]/95 p-4 lg:col-span-5">
-            <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-2.5 font-mono text-[11px] text-[#00ff88]">
-              <span className="inline-flex items-center gap-1.5">
-                <Terminal className="h-3.5 w-3.5" aria-hidden="true" />
-                INGESTA EDGE (JSON)
-              </span>
-              <span className="text-[#84a596]">EMA · CALIBRADO</span>
+          {/* Columna izquierda: Controles editables + Paquete en vivo */}
+          <div className="flex flex-col gap-4 lg:col-span-5">
+            {/* Controles de sensores */}
+            <div className="rounded-xl border border-[#f97316]/25 bg-[#030b07]/95 p-4 sm:p-5">
+              <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-2.5 font-mono text-[11px] text-[#fb923c]">
+                <span className="inline-flex items-center gap-1.5 font-semibold">
+                  <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
+                  INYECTAR LECTURAS DE SENSORES
+                </span>
+                <span className="text-[#84a596]">EDITABLE</span>
+              </div>
+
+              <div className="space-y-4">
+                {/* Humedad del suelo */}
+                <div>
+                  <div className="mb-1.5 flex items-center justify-between text-xs">
+                    <label
+                      htmlFor="sensor-soil"
+                      className="inline-flex items-center gap-1.5 font-medium text-[#e6f7ef]"
+                    >
+                      <Droplets
+                        className="h-3.5 w-3.5 text-[#00ff88]"
+                        aria-hidden="true"
+                      />
+                      Humedad del suelo
+                    </label>
+                    <span className="tabular-nums font-mono font-bold text-[#00ff88]">
+                      {reading.soilMoisturePct} %
+                    </span>
+                  </div>
+                  <input
+                    id="sensor-soil"
+                    type="range"
+                    min={5}
+                    max={100}
+                    step={1}
+                    value={reading.soilMoisturePct}
+                    onChange={(e) =>
+                      updateField("soilMoisturePct", Number(e.target.value))
+                    }
+                    className="sensor-range"
+                  />
+                </div>
+
+                {/* Temperatura del aire */}
+                <div>
+                  <div className="mb-1.5 flex items-center justify-between text-xs">
+                    <label
+                      htmlFor="sensor-temp"
+                      className="inline-flex items-center gap-1.5 font-medium text-[#e6f7ef]"
+                    >
+                      <Thermometer
+                        className="h-3.5 w-3.5 text-[#fb923c]"
+                        aria-hidden="true"
+                      />
+                      Temperatura del aire
+                    </label>
+                    <span className="tabular-nums font-mono font-bold text-[#fb923c]">
+                      {reading.airTempC.toFixed(1)} °C
+                    </span>
+                  </div>
+                  <input
+                    id="sensor-temp"
+                    type="range"
+                    min={0}
+                    max={42}
+                    step={0.5}
+                    value={reading.airTempC}
+                    onChange={(e) =>
+                      updateField("airTempC", Number(e.target.value))
+                    }
+                    className="sensor-range"
+                  />
+                </div>
+
+                {/* Humedad relativa */}
+                <div>
+                  <div className="mb-1.5 flex items-center justify-between text-xs">
+                    <label
+                      htmlFor="sensor-rh"
+                      className="inline-flex items-center gap-1.5 font-medium text-[#e6f7ef]"
+                    >
+                      <Wind
+                        className="h-3.5 w-3.5 text-sky-300"
+                        aria-hidden="true"
+                      />
+                      Humedad del aire
+                    </label>
+                    <span className="tabular-nums font-mono font-bold text-sky-300">
+                      {reading.relHumidityPct} %
+                    </span>
+                  </div>
+                  <input
+                    id="sensor-rh"
+                    type="range"
+                    min={15}
+                    max={100}
+                    step={1}
+                    value={reading.relHumidityPct}
+                    onChange={(e) =>
+                      updateField("relHumidityPct", Number(e.target.value))
+                    }
+                    className="sensor-range"
+                  />
+                </div>
+
+                {/* Batería del nodo */}
+                <div>
+                  <div className="mb-1.5 flex items-center justify-between text-xs">
+                    <label
+                      htmlFor="sensor-batt"
+                      className="inline-flex items-center gap-1.5 font-medium text-[#e6f7ef]"
+                    >
+                      <BatteryCharging
+                        className="h-3.5 w-3.5 text-[#00ff88]"
+                        aria-hidden="true"
+                      />
+                      Batería de la estación
+                    </label>
+                    <span className="tabular-nums font-mono font-bold text-[#e6f7ef]">
+                      {reading.batteryV.toFixed(2)} V
+                    </span>
+                  </div>
+                  <input
+                    id="sensor-batt"
+                    type="range"
+                    min={3.2}
+                    max={4.2}
+                    step={0.02}
+                    value={reading.batteryV}
+                    onChange={(e) =>
+                      updateField("batteryV", Number(e.target.value))
+                    }
+                    className="sensor-range"
+                  />
+                </div>
+              </div>
             </div>
-            <pre className="tabular-nums overflow-x-auto font-mono text-xs leading-relaxed text-[#b7d7c8]">
-              <code>{current.rawPayload}</code>
-            </pre>
+
+            {/* Paquete de información generado en tiempo real */}
+            <div className="rounded-xl border border-[#00ff88]/20 bg-[#020906]/95 p-4">
+              <div className="mb-2.5 flex items-center justify-between border-b border-white/10 pb-2 font-mono text-[11px] text-[#00ff88]">
+                <span className="inline-flex items-center gap-1.5">
+                  <Terminal className="h-3.5 w-3.5" aria-hidden="true" />
+                  PAQUETE DE DATOS DE SENSORES
+                </span>
+                <span className="text-[#84a596]">EN VIVO</span>
+              </div>
+              <pre className="tabular-nums overflow-x-auto font-mono text-xs leading-relaxed text-[#b7d7c8]">
+                <code>{diagnosis.formattedPacket}</code>
+              </pre>
+            </div>
           </div>
 
-          {/* Gajos interpretados por Mandarín */}
-          <div className="grid gap-4 lg:col-span-7">
-            {current.slices.map((slice) => (
+          {/* Columna derecha: Respuesta inteligente en Gajos */}
+          <div className="flex flex-col gap-4 lg:col-span-7">
+            <div className="rounded-xl border border-white/10 bg-[#040e0a]/90 px-4 py-3 text-sm text-[#e6f7ef]">
+              <span className="font-mono text-xs font-semibold text-[#fb923c]">
+                DIAGNÓSTICO GENERAL:{" "}
+              </span>
+              {diagnosis.headline}
+            </div>
+
+            {diagnosis.slices.map((slice) => (
               <article
                 key={slice.id}
-                className="rounded-xl border border-[#f97316]/25 bg-[#07150f]/90 p-5"
+                className="rounded-xl border border-[#f97316]/25 bg-[#07150f]/90 p-5 transition-colors"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span

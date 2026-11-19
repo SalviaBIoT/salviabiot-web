@@ -43,7 +43,7 @@ export function PlatformDialog({ open, onClose }: PlatformDialogProps) {
             <MandarinoAvatar size="sm" flotar={false} />
             <div>
               <p className="font-mono text-[10px] font-semibold tracking-[0.16em] text-[#00ff88] uppercase">
-                GATEWAY // ENLACE DE PLATAFORMA
+                PLATAFORMA CENTRAL
               </p>
               <h2
                 id="platform-dialog-title"
@@ -66,35 +66,36 @@ export function PlatformDialog({ open, onClose }: PlatformDialogProps) {
 
         <div className="mt-5 space-y-4 text-sm text-[#b7d7c8]">
           <p>
-            <strong>{SITE_CONFIG.platformName}</strong> es el centro operativo
-            (FastAPI + React + Savia + Mandarín) para monitoreo de estaciones{" "}
-            <strong>TerraBit</strong> y analítica ambiental.
+            <strong>{SITE_CONFIG.platformName}</strong> es nuestro centro
+            operativo de monitoreo en tiempo real para estaciones{" "}
+            <strong>TerraBit</strong>, análisis histórico con{" "}
+            <strong>Savia</strong> y alertas asistidas por{" "}
+            <strong>Mandarín</strong>.
           </p>
 
           <div className="rounded-lg border border-[#00ff88]/25 bg-[#030b07] p-4 font-mono text-xs">
             <div className="flex items-center gap-2 text-[#00ff88]">
               <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-              <span>ENDPOINT CONFIGURADO</span>
+              <span>ESTADO DE ACCESO</span>
             </div>
             <p className="mt-2 break-all text-[#e6f7ef]">
               {SITE_CONFIG.platformTargetUrl}
             </p>
-            <p className="mt-1 text-[11px] text-[#84a596]">
-              Estado actual:{" "}
+            <p className="mt-1.5 font-sans text-xs leading-relaxed text-[#84a596]">
               {SITE_CONFIG.platformLive
-                ? "Desplegado y en línea"
-                : "Entorno privado / Piloto controlado (activar con VITE_PLATFORM_LIVE=true al publicar app.salviabiot.com)"}
+                ? "Plataforma en línea para usuarios y proyectos activos."
+                : "En refinamiento activo para despliegue público. Actualmente disponible mediante acceso anticipado para pilotos y aliados estratégicos."}
             </p>
           </div>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-end gap-3 border-t border-white/10 pt-5">
           <a
-            href={`mailto:${SITE_CONFIG.emails.partnerships}?subject=Acceso%20a%20${SITE_CONFIG.platformName}`}
+            href={`mailto:${SITE_CONFIG.emails.partnerships}?subject=Acceso%20piloto%20a%20${SITE_CONFIG.platformName}`}
             className="inline-flex min-h-[42px] items-center gap-2 rounded-md border border-[#00ff88]/35 bg-[#00ff88]/10 px-4 py-2 font-mono text-xs font-semibold text-[#00ff88] transition-colors hover:bg-[#00ff88]/20"
           >
             <Mail className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Solicitar credenciales piloto</span>
+            <span>Solicitar acceso piloto</span>
           </a>
 
           {SITE_CONFIG.platformLive && (

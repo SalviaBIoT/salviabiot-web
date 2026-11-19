@@ -1,3 +1,5 @@
+@import "@fontsource/syne/700.css";
+@import "@fontsource/syne/800.css";
 @import "@fontsource/plus-jakarta-sans/400.css";
 @import "@fontsource/plus-jakarta-sans/500.css";
 @import "@fontsource/plus-jakarta-sans/600.css";
@@ -10,6 +12,7 @@
 @import "tailwindcss";
 
 @theme {
+  --font-display: "Syne", "Plus Jakarta Sans", sans-serif;
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
@@ -17,7 +20,7 @@
 }
 
 /* ==========================================================================
-   SalviaBIoT — Cyberpunk Bio-Tech Design System (v1.0)
+   SalviaBIoT — Cyberpunk Bio-Tech Design System (v1.1)
    ========================================================================== */
 :root {
   color-scheme: dark;
@@ -64,7 +67,7 @@ body {
   min-height: 100dvh;
   background-color: var(--bg-void);
   background-image:
-    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0, 255, 136, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 45% at 50% 0%, rgba(0, 255, 136, 0.16) 0%, transparent 60%),
     radial-gradient(circle at 85% 32%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
     linear-gradient(rgba(0, 255, 136, 0.032) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 255, 136, 0.032) 1px, transparent 1px);
@@ -82,10 +85,35 @@ body {
   outline-offset: 3px;
 }
 
+/* Tipografía Display Futurista y Orgánica */
+.brand-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 11vw, 7.25rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.brand-title-accent {
+  background: linear-gradient(120deg, #00ff88 0%, #6ee7b7 52%, #00ff88 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 28px rgba(0, 255, 136, 0.42));
+}
+
 /* Números tabulares para telemetría */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
+}
+
+/* Sliders nativos estilizados con accent-color para el simulador de Mandarín */
+.sensor-range {
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  accent-color: var(--mandarin-primary);
 }
 
 /* Utilidad accesible para lectores de pantalla y skip-link */
@@ -238,7 +266,7 @@ dialog.cyber-dialog::backdrop {
   }
 
   .mandarino-ring-fast {
-    animation: mandarino-orbit 5.5s linear infinite;
+    animation: mandarino-orbit 4.5s linear infinite;
   }
 
   .mandarino-ring-outer {

@@ -16,14 +16,14 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
               SALVIA<span className="text-[#00ff88]">BIoT</span>
             </p>
             <p className="mt-2 text-sm text-[#84a596]">
-              Infraestructura de inteligencia ambiental y telemetría biológica
+              Infraestructura de inteligencia ambiental y sensores biológicos
               construida desde {SITE_CONFIG.location}.
             </p>
             <div className="mt-4 border-l-2 border-[#00ff88]/40 pl-3 text-xs text-[#b7d7c8]">
               <strong className="block font-semibold text-white">
                 {SITE_CONFIG.founder}
               </strong>
-              <span>Fundador &amp; Arquitecto de Sistemas · Bio-IoT</span>
+              <span>{SITE_CONFIG.founderRole}</span>
             </div>
           </div>
 
@@ -59,7 +59,7 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
                   href="#mandarin"
                   className="transition-colors hover:text-[#ff8c32]"
                 >
-                  Mandarín · Subagente Modular
+                  Mandarín · Laboratorio Interactivo
                 </a>
               </li>
             </ul>
@@ -107,9 +107,7 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
             &copy; {new Date().getFullYear()} SalviaBIoT ·{" "}
             <span lang="en">Biological Internet of Things</span>.
           </p>
-          <p>
-            DESPLIEGUE CONTINUO · CLOUDFLARE DNS + VERCEL · {SITE_CONFIG.domain}
-          </p>
+          <p>{SITE_CONFIG.domain} · Pereira, Colombia</p>
         </div>
       </div>
     </footer>

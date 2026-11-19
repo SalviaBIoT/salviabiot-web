@@ -13,19 +13,20 @@ export function DataCycleSection() {
         {DATA_CYCLE_STEPS.map((item) => (
           <li
             key={item.step}
-            className="cyber-panel relative flex flex-col rounded-xl p-5"
+            className="cyber-panel relative flex flex-col rounded-xl p-6"
           >
-            <div className="mb-4 flex items-center justify-between">
-              <span className="font-mono text-2xl font-extrabold text-[#00ff88]/90">
+            {/* Cabecera apilada con espacio limpio para evitar cualquier superposición */}
+            <div className="mb-4 flex flex-col items-start gap-2.5 border-b border-[#00ff88]/15 pb-4">
+              <span className="font-mono text-3xl leading-none font-extrabold text-[#00ff88]">
                 {item.step}
               </span>
-              <span className="rounded border border-[#00ff88]/25 bg-[#00ff88]/8 px-2 py-0.5 font-mono text-[10px] tracking-wider text-[#b7d7c8]">
+              <span className="inline-flex rounded border border-[#00ff88]/25 bg-[#00ff88]/8 px-2.5 py-1 font-mono text-[11px] leading-tight tracking-wider text-[#c2e6d5]">
                 {item.layer}
               </span>
             </div>
 
             <h3 className="text-base font-bold text-white">{item.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#84a596]">
+            <p className="mt-2.5 text-sm leading-relaxed text-[#84a596]">
               {item.description}
             </p>
           </li>

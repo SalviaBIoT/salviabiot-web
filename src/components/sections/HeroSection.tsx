@@ -8,6 +8,12 @@ interface HeroSectionProps {
 export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
   return (
     <section id="top" className="relative pt-14 pb-16 sm:pt-20 sm:pb-24">
+      {/* Halo orgánico sutil detrás del título principal */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-12 left-1/2 -z-10 h-64 w-[min(680px,92vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(0,255,136,0.22)_0%,rgba(16,185,129,0.06)_48%,transparent_75%)] blur-2xl"
+      />
+
       <div className="mx-auto max-w-4xl text-center">
         {/* Kicker status */}
         <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#00ff88]/30 bg-[#00ff88]/8 px-4 py-1.5 font-mono text-xs tracking-[0.14em] text-[#00ff88] uppercase">
@@ -17,31 +23,30 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
 
         <p
           lang="en"
-          className="font-mono text-xs font-semibold tracking-[0.22em] text-[#00ff88]/90 uppercase sm:text-sm"
+          className="font-mono text-xs font-semibold tracking-[0.26em] text-[#00ff88]/90 uppercase sm:text-sm"
         >
           Biological Internet of Things
         </p>
 
-        {/* Único H1 de la página, destino del skip-link */}
+        {/* Único H1 de la página: tipografía display futurista y orgánica */}
         <h1
           id="contenido-principal"
           tabIndex={-1}
-          className="mt-3 text-5xl font-extrabold tracking-[-0.04em] text-white outline-none sm:text-7xl"
-          style={{ textShadow: "0 0 42px rgba(0, 255, 136, 0.24)" }}
+          className="brand-title mt-4 text-white outline-none"
         >
-          Salvia<span className="text-[#00ff88]">BIoT</span>
+          Salvia<span className="brand-title-accent">BIoT</span>
         </h1>
 
-        <p className="mx-auto mt-5 max-w-2xl text-lg font-medium text-[#c2e6d5] sm:text-2xl">
-          Infraestructura de inteligencia ambiental y telemetría biológica para
-          dar voz digital a los ecosistemas vivos.
+        <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-[#c2e6d5] sm:text-2xl">
+          Inteligencia ambiental y sensores vivos para escuchar, comprender y
+          proteger nuestros ecosistemas.
         </p>
 
         <p className="mx-auto mt-4 max-w-2xl text-sm text-[#84a596] sm:text-base">
-          Integramos hardware autónomo en campo (<strong>TerraBit Station</strong>
-          ), inteligencia ambiental en la nube (<strong>Savia</strong>) y
-          subagentes modulares (<strong>Mandarín</strong>) para escuchar,
-          interpretar y proteger bosques altoandinos, páramos y cuencas hídricas.
+          Conectamos estaciones de campo (<strong>TerraBit Station</strong>),
+          memoria ambiental (<strong>Savia</strong>) y un asistente inteligente
+          cercano (<strong>Mandarín</strong>) para cuidar bosques altoandinos,
+          páramos, cuencas hídricas y cultivos regenerativos.
         </p>
 
         {/* CTAs principales */}
@@ -65,7 +70,7 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Barra HUD de Telemetría del Ecosistema */}
+      {/* Barra HUD del Ecosistema */}
       <div className="cyber-panel mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#00ff88]/25 bg-[#00ff88]/15 sm:grid-cols-4">
         {HUD_METRICS.map((metric) => (
           <div
