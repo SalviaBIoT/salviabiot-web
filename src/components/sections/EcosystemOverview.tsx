@@ -34,101 +34,36 @@ function PillarEmblem({ id, color }: { id: EcosystemPillar["id"]; color: string 
   if (id === "savia") {
     return (
       <div
-        className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border bg-[#0B1117]"
+        className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border bg-[#0B1117] p-1.5"
         style={{
           borderColor: `${color}60`,
           boxShadow: `0 0 26px ${color}30`,
         }}
         aria-hidden="true"
       >
-        {/* Vector monocromo de un solo color: Savia */}
-        <svg viewBox="0 0 64 64" className="h-12 w-12" fill="none">
-          {/* Tres hojas superiores */}
-          <path
-            d="M32 6C28 11 28 16 32 19C36 16 36 11 32 6Z"
-            fill={color}
-          />
-          <path
-            d="M21 11C20 16 23 20 28 20C27 15 24 12 21 11Z"
-            fill={color}
-            opacity="0.88"
-          />
-          <path
-            d="M43 11C44 16 41 20 36 20C37 15 40 12 43 11Z"
-            fill={color}
-            opacity="0.88"
-          />
-          {/* Cuerpo de gota orgánica */}
-          <path
-            d="M32 19C22 28 16 36 16 44C16 52.8 23.2 58 32 58C40.8 58 48 52.8 48 44C48 36 42 28 32 19Z"
-            fill={color}
-          />
-          {/* Expresión serena */}
-          <path
-            d="M24 41Q27 38 30 41"
-            stroke="#0B1117"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-          />
-          <path
-            d="M34 41Q37 38 40 41"
-            stroke="#0B1117"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-          />
-          <path
-            d="M28 47.5Q32 51 36 47.5"
-            stroke="#0B1117"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-          />
-        </svg>
+        <img
+          src="/brand/agents/Savia_Monocromo_Verde.png"
+          alt=""
+          className="h-13 w-13 object-contain"
+        />
       </div>
     );
   }
 
   return (
     <div
-      className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border bg-[#0B1117]"
+      className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border bg-[#0B1117] p-1.5"
       style={{
         borderColor: `${color}60`,
         boxShadow: `0 0 26px ${color}32`,
       }}
       aria-hidden="true"
     >
-      {/* Vector monocromo de un solo color: Mandarín */}
-      <svg viewBox="0 0 64 64" className="h-12 w-12" fill="none">
-        {/* Tallo y hoja característica */}
-        <path
-          d="M32 16V10"
-          stroke={color}
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <path
-          d="M33 12C39 8 46 9 48 14C43 17 37 16 33 12Z"
-          fill={color}
-        />
-        {/* Antena / brote izquierdo */}
-        <circle cx="22" cy="12" r="2.6" fill={color} opacity="0.9" />
-        <path
-          d="M23 14L27 19"
-          stroke={color}
-          strokeWidth="2.2"
-          strokeLinecap="round"
-        />
-        {/* Cuerpo mandarina */}
-        <ellipse cx="32" cy="39" rx="20" ry="18" fill={color} />
-        {/* Rostro amigable */}
-        <circle cx="25.5" cy="38" r="2.3" fill="#0B1117" />
-        <circle cx="38.5" cy="38" r="2.3" fill="#0B1117" />
-        <path
-          d="M27.5 44.5Q32 48.5 36.5 44.5"
-          stroke="#0B1117"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-        />
-      </svg>
+      <img
+        src="/brand/agents/Mandarin_Monocromo_Naranja.png"
+        alt=""
+        className="h-13 w-13 object-contain"
+      />
     </div>
   );
 }

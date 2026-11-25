@@ -88,7 +88,7 @@ export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
           <button
             type="button"
             onClick={onOpenPlatformGateway}
-            className="inline-flex min-h-[40px] cursor-pointer items-center gap-1.5 rounded-xl bg-[#10B981] px-4 py-2 font-mono text-xs font-bold tracking-wider text-[#04130D] transition-colors hover:bg-[#34D399]"
+            className="inline-flex min-h-[40px] cursor-pointer items-center gap-1.5 rounded-full border border-white/20 bg-white/[0.06] px-4.5 py-2 font-display text-xs font-semibold tracking-tight text-[#F8FAFC] transition-all hover:bg-[#F8FAFC] hover:text-[#0B1117]"
           >
             <span>Acceder a Plataforma</span>
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />

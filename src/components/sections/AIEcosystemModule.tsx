@@ -62,7 +62,7 @@ export function AIEcosystemModule({
 
             <div className="text-center sm:text-left">
               <span className="inline-block rounded-full border border-[#10B981]/35 bg-[#10B981]/12 px-3 py-1 font-mono text-[11px] font-semibold tracking-wider text-[#34D399] uppercase">
-                Core AI · Memoria Territorial
+                Sabiduría de la Tierra
               </span>
               <h3 className="mt-3 font-display text-2xl font-extrabold text-[#F8FAFC] sm:text-3xl">
                 {AI_AGENTS.savia.name}

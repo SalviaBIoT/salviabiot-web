@@ -99,8 +99,8 @@ export const ECOSYSTEM_PILLARS: EcosystemPillar[] = [
   },
   {
     id: "savia",
-    code: "02 // CORE AI AMBIENTAL",
-    title: "Savia · Sabiduría",
+    code: "02 // SABIDURÍA DE LA TIERRA",
+    title: "Savia",
     subtitle: "Memoria ambiental e inteligencia territorial",
     summary:
       "Recibe los datos mediante nuestro sistema de envío inteligente de información, los organiza en la memoria histórica del territorio y detecta cambios críticos a tiempo.",
@@ -221,7 +221,7 @@ export const STATIONS: StationModuleSpec[] = [
 export const AI_AGENTS = {
   savia: {
     name: "Savia",
-    role: "Sabiduría de la Tierra · Core AI",
+    role: "Sabiduría de la Tierra",
     tagline:
       "Motor cognitivo central que convierte mediciones continuas en memoria viva, alertas preventivas y respaldo ambiental del territorio.",
     specs: [
@@ -289,7 +289,7 @@ export const DATA_CYCLE_STEPS: DataCycleStep[] = [
   {
     step: "02",
     title: "Memoria en Savia",
-    layer: "Savia · Core AI",
+    layer: "Savia · Sabiduría de la Tierra",
     description:
       "Savia organiza el historial ambiental y de CO₂ del territorio para detectar anomalías hídricas o climáticas a tiempo.",
     tone: "emerald",
