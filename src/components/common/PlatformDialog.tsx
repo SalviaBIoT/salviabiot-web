@@ -73,8 +73,8 @@ export function PlatformDialog({ open, onClose }: PlatformDialogProps) {
           <p>
             <strong className="text-[#F8FAFC]">{SITE_CONFIG.platformName}</strong>{" "}
             centraliza la telemetría en vivo de las estaciones{" "}
-            <strong className="text-[#F8FAFC]">TRB · YKU · WYR · APU</strong>, el
-            Lakehouse histórico de <strong className="text-[#10B981]">Savia</strong>{" "}
+            <strong className="text-[#F8FAFC]">TRB · YKU · WYR · APU</strong>, la
+            memoria histórica de <strong className="text-[#10B981]">Savia</strong>{" "}
             y las decisiones accionables de{" "}
             <strong className="text-[#F97316]">Mandarín</strong>.
           </p>

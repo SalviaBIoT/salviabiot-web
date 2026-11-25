@@ -55,7 +55,7 @@ export function ManifestoSection() {
                 Buscamos predios caficultores, reservas altoandinas y proyectos
                 de conservación en Colombia para desplegar nodos modulares{" "}
                 <strong className="text-[#F8FAFC]">TRB · YKU · WYR · APU</strong>{" "}
-                y validar trazabilidad dMRV en campo.
+                y validar el monitoreo de carbono y CO₂ en campo.
               </p>
             </div>
 

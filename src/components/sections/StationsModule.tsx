@@ -22,7 +22,7 @@ export function StationsModule() {
 
         <div className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-[#FACC15]/35 bg-[#111922] px-4 py-2 font-mono text-xs font-semibold text-[#FACC15] sm:mb-8">
           <Cpu className="h-4 w-4" aria-hidden="true" />
-          <span>Placa Base Única · ESP32-S3 + Savia Link</span>
+          <span>Placa Base Única · Arquitectura Modular</span>
         </div>
       </div>
 

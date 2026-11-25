@@ -16,7 +16,7 @@ export interface StationModuleSpec {
 }
 
 export interface EcosystemPillar {
-  id: string;
+  id: "hardware" | "savia" | "mandarin";
   code: string;
   title: string;
   subtitle: string;
@@ -24,6 +24,7 @@ export interface EcosystemPillar {
   href: string;
   ctaLabel: string;
   accentHex: string;
+  accentBrightHex: string;
 }
 
 export interface DataCycleStep {
@@ -56,22 +57,22 @@ export const HUD_METRICS = [
   {
     id: "base",
     label: "PLACA BASE ÚNICA",
-    value: "ESP32-S3",
-    unit: "Bus modular + Savia Link",
+    value: "1 Base · 4 Modos",
+    unit: "Hardware modular adaptable a cada entorno",
     accent: "text-[#FACC15]",
   },
   {
-    id: "edge",
-    label: "PROCESAMIENTO EDGE",
-    value: "< 120 ms",
-    unit: "Calibración + filtro EMA",
+    id: "local",
+    label: "ANÁLISIS EN LOCAL",
+    value: "Soberanía del Dato",
+    unit: "Procesamiento en campo, tus datos son tuyos",
     accent: "text-[#10B981]",
   },
   {
-    id: "dmrv",
-    label: "TRAZABILIDAD",
-    value: "dMRV Auditada",
-    unit: "Integridad criptográfica",
+    id: "carbon",
+    label: "CARBONO & CO₂",
+    value: "Monitoreo Vivo",
+    unit: "Seguimiento de CO₂ y salud del ecosistema",
     accent: "text-[#38BDF8]",
   },
   {
@@ -88,23 +89,25 @@ export const ECOSYSTEM_PILLARS: EcosystemPillar[] = [
     id: "hardware",
     code: "01 // PERCEPCIÓN EN CAMPO",
     title: "Estaciones Modulares",
-    subtitle: "Placa base ESP32-S3 + energía solar INTI",
+    subtitle: "Una sola placa base, cuatro estaciones especializadas",
     summary:
-      "Cuatro dominios ambientales intercambiables (TerraBit, Yaku, Wayra y Apu) sobre una misma arquitectura electrónica resistente a montaña y niebla.",
+      "Cuatro módulos ambientales intercambiables (TerraBit, Yaku, Wayra y Apu) sobre una misma base electrónica preparada para campo y montaña.",
     href: "#estaciones",
     ctaLabel: "Explorar 4 estaciones",
     accentHex: "#AD703B",
+    accentBrightHex: "#D4955E",
   },
   {
     id: "savia",
     code: "02 // CORE AI AMBIENTAL",
     title: "Savia · Sabiduría",
-    subtitle: "Lakehouse híbrido + trazabilidad dMRV",
+    subtitle: "Memoria ambiental e inteligencia territorial",
     summary:
-      "Ingiere paquetes desde Savia Link, cruza series de tiempo con capas geoespaciales históricas y detecta anomalías antes del daño ecológico.",
+      "Recibe los datos mediante nuestro sistema de envío inteligente de información, los organiza en la memoria histórica del territorio y detecta cambios críticos a tiempo.",
     href: "#ia",
     ctaLabel: "Ver arquitectura Savia",
     accentHex: "#10B981",
+    accentBrightHex: "#34D399",
   },
   {
     id: "mandarin",
@@ -112,10 +115,11 @@ export const ECOSYSTEM_PILLARS: EcosystemPillar[] = [
     title: "Mandarín · Traductor",
     subtitle: "Decisiones divididas en gajos accionables",
     summary:
-      "Convierte lecturas complejas y alertas de Savia en instrucciones claras y oportunas por Web, App o WhatsApp para productores y guardabosques.",
+      "Traduce el análisis de Savia en alertas claras y acciones prácticas por Web, App o WhatsApp para productores y guardabosques.",
     href: "#ia",
     ctaLabel: "Probar Mandarín en vivo",
     accentHex: "#F97316",
+    accentBrightHex: "#FB923C",
   },
 ];
 
@@ -129,7 +133,7 @@ export const STATIONS: StationModuleSpec[] = [
     accentHex: "#AD703B",
     accentBrightHex: "#D4955E",
     summary:
-      "Nodo edáfico solar diseñado para medir salud radicular y retención hídrica sin deriva térmica ni ruido eléctrico.",
+      "Nodo edáfico diseñado para medir salud radicular y retención hídrica sin deriva térmica ni ruido eléctrico.",
     variables: [
       "Humedad volumétrica (VWC)",
       "Conductividad eléctrica (EC)",
@@ -138,10 +142,10 @@ export const STATIONS: StationModuleSpec[] = [
     engineering: [
       "Calibración física suelo seco / agua",
       "Filtro de media móvil exponencial (EMA)",
-      "Panel solar INTI + respaldo en flash LittleFS",
+      "Alimentación adaptable (solar opcional) + memoria local de respaldo",
     ],
     application: "Caficultura de altura, suelos orgánicos y monitoreo de turberas.",
-    biomeBadge: "Suelo & Raíz · INTI",
+    biomeBadge: "Suelo & Raíz",
   },
   {
     id: "yku",
@@ -161,7 +165,7 @@ export const STATIONS: StationModuleSpec[] = [
     engineering: [
       "Sondas selladas IP68 de bajo consumo",
       "Compensación automática de temperatura",
-      "Alertas tempranas por avenidas o sedimentos",
+      "Alertas tempranas por crecientes o sedimentos",
     ],
     application: "Monitoreo continuo de quebradas, bocatomas y reservorios altoandinos.",
     biomeBadge: "Cuencas Altoandinas",
@@ -175,9 +179,9 @@ export const STATIONS: StationModuleSpec[] = [
     accentHex: "#94A3B8",
     accentBrightHex: "#CBD5E1",
     summary:
-      "Estación microclimática de alta precisión que caracteriza la demanda evaporativa y las condiciones del dosel vegetal.",
+      "Estación microclimática de alta precisión que caracteriza la demanda evaporativa, el CO₂ ambiental y las condiciones del dosel vegetal.",
     variables: [
-      "Temperatura y humedad relativa",
+      "Temperatura, humedad relativa y CO₂",
       "Presión barométrica y viento (vel/dir)",
       "Radiación PAR / UV y cálculo de VPD",
     ],
@@ -187,7 +191,7 @@ export const STATIONS: StationModuleSpec[] = [
       "Detección de ventanas propicias para patógenos",
     ],
     application: "Microclima en cultivos regenerativos, bosques de niebla y apiarios.",
-    biomeBadge: "Microclima & VPD",
+    biomeBadge: "Microclima & CO₂",
   },
   {
     id: "apu",
@@ -198,19 +202,19 @@ export const STATIONS: StationModuleSpec[] = [
     accentHex: "#10B981",
     accentBrightHex: "#34D399",
     summary:
-      "Concentrador territorial y puente de telemetría resiliente que articula múltiples nodos de campo en zonas sin cobertura.",
+      "Concentrador territorial y puente resiliente que articula múltiples nodos de campo en zonas sin cobertura.",
     variables: [
       "Enrutamiento malla LoRa sub-GHz",
-      "Cómputo Edge y compresión de paquetes",
-      "Telemetría de salud y energía de la red",
+      "Análisis local y compresión de datos",
+      "Estado de salud y energía de la red",
     ],
     engineering: [
       "Enlace ascendente LTE / Satelital hacia Savia",
-      "Buffer persistente en MicroSD + LittleFS",
-      "Sincronización segura vía protocolo Savia Link",
+      "Buffer persistente en MicroSD + memoria flash",
+      "Sincronización con nuestro sistema de envío inteligente de información",
     ],
     application: "Despliegues de alta montaña, reservas naturales y corredores de páramo.",
-    biomeBadge: "Gateway Edge LoRa",
+    biomeBadge: "Nodo Maestro LoRa",
   },
 ];
 
@@ -219,23 +223,27 @@ export const AI_AGENTS = {
     name: "Savia",
     role: "Sabiduría de la Tierra · Core AI",
     tagline:
-      "Motor cognitivo central que transforma corrientes continuas de telemetría en memoria viva y trazabilidad científica del territorio.",
+      "Motor cognitivo central que convierte mediciones continuas en memoria viva, alertas preventivas y respaldo ambiental del territorio.",
     specs: [
       {
-        label: "Ingesta",
-        value: "Protocolo Savia Link autenticado con tolerancia a desconexión.",
+        label: "Envío Inteligente",
+        value:
+          "Recibe datos desde campo mediante nuestro sistema de envío inteligente de información, incluso con señal intermitente.",
       },
       {
-        label: "Almacenamiento",
-        value: "Lakehouse híbrido: series de tiempo + capas geoespaciales.",
+        label: "Memoria Ambiental",
+        value:
+          "Organiza series históricas del suelo, agua, aire y CO₂ para entender cómo evoluciona cada predio.",
       },
       {
-        label: "Inteligencia",
-        value: "Memoria histórica territorial y detección temprana de anomalías hídricas/climáticas.",
+        label: "Alertas Tempranas",
+        value:
+          "Detecta anomalías hídricas, térmicas y ambientales antes de que generen pérdidas.",
       },
       {
-        label: "Integridad",
-        value: "Trazabilidad criptográfica dMRV lista para auditoría de conservación.",
+        label: "Respaldo y Carbono",
+        value:
+          "Genera historiales ordenados para apoyar la conservación y el monitoreo de carbono.",
       },
     ],
   },
@@ -247,19 +255,23 @@ export const AI_AGENTS = {
     specs: [
       {
         label: "Arquitectura",
-        value: "Diagnóstico en «gajos» independientes: agua, microclima, energía y acción.",
+        value:
+          "Diagnóstico en «gajos» independientes: agua, microclima, energía y acción.",
       },
       {
         label: "Operación",
-        value: "Genera alertas hídricas y planes de riego programado o de rescate.",
+        value:
+          "Genera alertas hídricas y planes de riego programado o de rescate.",
       },
       {
         label: "Contexto",
-        value: "Diagnóstico microclimático y reportes ejecutivos de conservación.",
+        value:
+          "Diagnóstico microclimático y reportes ejecutivos de conservación.",
       },
       {
         label: "Canales",
-        value: "Lenguaje humano directo a través de Web, App y WhatsApp en campo.",
+        value:
+          "Lenguaje humano directo a través de Web, App y WhatsApp en campo.",
       },
     ],
   },
@@ -271,7 +283,7 @@ export const DATA_CYCLE_STEPS: DataCycleStep[] = [
     title: "Percepción en Tierra",
     layer: "TRB · YKU · WYR · APU",
     description:
-      "Las estaciones sobre ESP32-S3 capturan señales del suelo, agua y aire, aplican calibración física + filtro EMA y transmiten vía Savia Link.",
+      "Las estaciones sobre una placa base única miden suelo, agua y aire, filtran el ruido en local y transmiten con nuestro sistema de envío inteligente de información.",
     tone: "earth",
   },
   {
@@ -279,7 +291,7 @@ export const DATA_CYCLE_STEPS: DataCycleStep[] = [
     title: "Memoria en Savia",
     layer: "Savia · Core AI",
     description:
-      "El Lakehouse híbrido consolida series temporales y contexto geoespacial para detectar anomalías y sellar evidencia dMRV.",
+      "Savia organiza el historial ambiental y de CO₂ del territorio para detectar anomalías hídricas o climáticas a tiempo.",
     tone: "emerald",
   },
   {

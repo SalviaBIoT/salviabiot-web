@@ -310,7 +310,7 @@ export function MandarinSimulator({ motionPaused }: MandarinSimulatorProps) {
             <div className="mb-2.5 flex items-center justify-between border-b border-white/[0.08] pb-2 font-mono text-[11px] text-[#34D399]">
               <span className="inline-flex items-center gap-1.5">
                 <Terminal className="h-3.5 w-3.5" aria-hidden="true" />
-                PAQUETE SAVIA LINK
+                ENVÍO INTELIGENTE DE DATOS
               </span>
               <span className="text-[#64748B]">EN VIVO</span>
             </div>
