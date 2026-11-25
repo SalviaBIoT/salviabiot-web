@@ -13,9 +13,9 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
           {/* Marca Oficial y Fundador */}
           <div>
             <img
-              src="/brand/SalviaBIoT_Wordmark_Compacto_Oscuro.svg"
+              src="/brand/SalviaBIoT_Wordmark_Compacto_Oscuro_Transparente.png"
               alt="SalviaBIoT"
-              className="h-8 w-auto"
+              className="-my-1 h-12 w-auto object-contain"
             />
             <p className="mt-3 text-sm text-[#94A3B8]">
               Telemetría biológica e inteligencia ambiental de precisión

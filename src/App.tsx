@@ -18,19 +18,22 @@ export function App() {
     <div data-motion={motionPaused ? "paused" : "running"} className="min-h-dvh">
       <Navbar onOpenPlatformGateway={() => setPlatformDialogOpen(true)} />
 
-      <main className="mx-auto max-w-6xl px-4 sm:px-6">
+      <main>
         <HeroSection onOpenPlatformGateway={() => setPlatformDialogOpen(true)} />
-        <EcosystemOverview />
-        <StationsModule />
-        <AIEcosystemModule
-          motionPaused={motionPaused}
-          onToggleMotion={() => setMotionPaused((prev) => !prev)}
-        />
-        <DataCycleSection />
-        <ManifestoSection />
-        <PlatformGateway
-          onOpenPlatformGateway={() => setPlatformDialogOpen(true)}
-        />
+
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <EcosystemOverview />
+          <StationsModule />
+          <AIEcosystemModule
+            motionPaused={motionPaused}
+            onToggleMotion={() => setMotionPaused((prev) => !prev)}
+          />
+          <DataCycleSection />
+          <ManifestoSection />
+          <PlatformGateway
+            onOpenPlatformGateway={() => setPlatformDialogOpen(true)}
+          />
+        </div>
       </main>
 
       <Footer onOpenPlatformGateway={() => setPlatformDialogOpen(true)} />

@@ -7,29 +7,29 @@ interface HeroSectionProps {
 
 export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
   return (
-    <section id="top" className="relative pt-8 pb-14 sm:pt-10 sm:pb-18">
-      {/* Tarjeta Hero Editorial con SalviaBIoT_Login_Hero_1024x1024.jpg + scrim protector */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.1] bg-[#0B1117] px-6 py-10 shadow-[0_24px_64px_rgba(0,0,0,0.65)] sm:px-12 sm:py-14 lg:py-16">
+    <section id="top" className="relative w-full overflow-hidden pb-12">
+      {/* Portada Full-Bleed Expandida (sin caja) estilo LoginPage */}
+      <div className="relative flex min-h-[540px] flex-col justify-center px-4 pt-12 pb-16 sm:min-h-[600px] sm:px-6 sm:pt-14 sm:pb-20">
         <img
           src="/brand/SalviaBIoT_Login_Hero_1024x1024.jpg"
-          alt=""
+          alt="Estación de telemetría biológica SalviaBIoT en ecosistema vivo andino"
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-center opacity-45"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
 
-        {/* Scrim protector multicapa #0B1117 */}
+        {/* Degradado estratégico: deja respirar la fotografía a los lados y asegura contraste en el centro */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(11,17,23,0.82) 0%, rgba(11,17,23,0.72) 45%, rgba(11,17,23,0.95) 100%), radial-gradient(circle at 50% 35%, rgba(16,185,129,0.16) 0%, rgba(11,17,23,0.88) 70%)",
+              "linear-gradient(180deg, rgba(11,17,23,0.62) 0%, rgba(11,17,23,0.34) 38%, rgba(11,17,23,0.58) 74%, #0B1117 100%), radial-gradient(ellipse 68% 58% at 50% 48%, rgba(11,17,23,0.68) 0%, rgba(11,17,23,0.18) 72%, transparent 100%)",
           }}
         />
 
-        <div className="relative z-10 mx-auto max-w-3xl text-center">
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
           {/* Píldora superior con el ÚNICO LED #00FF88 ("EN VIVO") */}
-          <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-[#111922]/85 px-4 py-1.5 font-mono text-xs font-medium tracking-[0.12em] text-[#F8FAFC] backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-[#0B1117]/75 px-4 py-1.5 font-mono text-xs font-medium tracking-[0.12em] text-[#F8FAFC] backdrop-blur-md">
             <span
               className="pulse-dot-live inline-block h-2.5 w-2.5 rounded-full"
               aria-hidden="true"
@@ -38,19 +38,15 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
             <span className="text-[#64748B]" aria-hidden="true">
               ·
             </span>
-            <span className="text-[#94A3B8]">Ecosistema en despliegue · CO</span>
+            <span className="text-[#CBD5E1]">Ecosistema en despliegue · CO</span>
           </div>
 
-          {/* Logo Principal Grande y Reluciente */}
-          <div className="relative mx-auto my-2 flex max-w-[540px] items-center justify-center">
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-x-4 inset-y-2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.26)_0%,rgba(250,204,21,0.12)_45%,transparent_72%)] blur-xl"
-            />
+          {/* Wordmark Principal PNG Alta Resolución: grande, expandido, verídico, sin aureola */}
+          <div className="mx-auto my-1 flex justify-center">
             <img
-              src="/brand/SalviaBIoT_Wordmark_Principal_Oscuro.svg"
+              src="/brand/SalviaBIoT_Wordmark_Principal_Oscuro_Transparente.png"
               alt="SalviaBIoT — De Sensores a Decisiones"
-              className="relative -my-6 h-auto w-[min(460px,94%)] drop-shadow-[0_0_28px_rgba(16,185,129,0.3)] sm:-my-8 sm:w-[540px]"
+              className="-my-6 h-auto w-[min(560px,94vw)] object-contain drop-shadow-[0_6px_24px_rgba(11,17,23,0.75)] sm:-my-8 sm:w-[640px] lg:w-[700px]"
             />
           </div>
 
@@ -58,7 +54,7 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
           <h1
             id="contenido-principal"
             tabIndex={-1}
-            className="font-display mt-3 text-3xl font-extrabold tracking-tight text-[#F8FAFC] outline-none sm:text-5xl"
+            className="font-display mt-3 text-3xl font-extrabold tracking-tight text-[#F8FAFC] drop-shadow-[0_2px_18px_rgba(11,17,23,0.85)] outline-none sm:text-5xl"
           >
             Inteligencia{" "}
             <span className="brand-title-accent">Ambiental de Precisión</span>
@@ -68,7 +64,7 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
             <a
               href="#estaciones"
-              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl bg-[#10B981] px-6 py-3 font-mono text-xs font-bold tracking-wider text-[#04130D] uppercase shadow-[0_8px_28px_rgba(16,185,129,0.32)] transition-all hover:-translate-y-0.5 hover:bg-[#34D399]"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl bg-[#10B981] px-6 py-3 font-mono text-xs font-bold tracking-wider text-[#04130D] uppercase shadow-[0_8px_28px_rgba(11,17,23,0.5)] transition-all hover:-translate-y-0.5 hover:bg-[#34D399]"
             >
               <Cpu className="h-4 w-4" aria-hidden="true" />
               <span>Explorar Estaciones</span>
@@ -77,7 +73,7 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
 
             <a
               href="#ia"
-              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl border border-[#F97316]/55 bg-[#F97316]/15 px-6 py-3 font-mono text-xs font-bold tracking-wider text-[#F8FAFC] uppercase backdrop-blur-md shadow-[0_8px_24px_rgba(249,115,22,0.18)] transition-all hover:-translate-y-0.5 hover:border-[#F97316] hover:bg-[#F97316]/25"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl border border-[#F97316]/60 bg-[#0B1117]/75 px-6 py-3 font-mono text-xs font-bold tracking-wider text-[#F8FAFC] uppercase backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#F97316] hover:bg-[#F97316]/25"
             >
               <Sparkles className="h-4 w-4 text-[#FB923C]" aria-hidden="true" />
               <span>
@@ -91,7 +87,7 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
             <button
               type="button"
               onClick={onOpenPlatformGateway}
-              className="cursor-pointer font-mono text-xs text-[#94A3B8] underline decoration-white/20 underline-offset-4 transition-colors hover:text-[#34D399] hover:decoration-[#34D399]"
+              className="cursor-pointer font-mono text-xs text-[#CBD5E1] underline decoration-white/25 underline-offset-4 drop-shadow-[0_1px_6px_rgba(11,17,23,0.9)] transition-colors hover:text-[#34D399] hover:decoration-[#34D399]"
             >
               ¿Ya cuentas con acceso piloto? Ingresar a Platform_SalviaBIoT &rarr;
             </button>
@@ -99,26 +95,26 @@ export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* Barra HUD Compacta en lenguaje claro */}
-      <div className="mx-auto mt-6 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08] sm:grid-cols-4">
-        {HUD_METRICS.map((metric) => (
-          <div
-            key={metric.id}
-            className="bg-[#111922]/92 px-4 py-4 text-left sm:px-5"
-          >
-            <p className="font-mono text-[10px] font-semibold tracking-[0.16em] text-[#64748B] uppercase">
-              {metric.label}
-            </p>
-            <p
-              className={`tabular-nums mt-1 font-mono text-base font-bold sm:text-lg ${metric.accent}`}
+      {/* Barra HUD Compacta alineada al contenedor */}
+      <div className="relative z-10 mx-auto -mt-8 max-w-6xl px-4 sm:px-6">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.55)] backdrop-blur-md sm:grid-cols-4">
+          {HUD_METRICS.map((metric) => (
+            <div
+              key={metric.id}
+              className="bg-[#111922]/94 px-4 py-4 text-left sm:px-5"
             >
-              {metric.value}
-            </p>
-            <p className="mt-0.5 text-xs text-[#94A3B8]">
-              {metric.unit}
-            </p>
-          </div>
-        ))}
+              <p className="font-mono text-[10px] font-semibold tracking-[0.16em] text-[#64748B] uppercase">
+                {metric.label}
+              </p>
+              <p
+                className={`tabular-nums mt-1 font-mono text-base font-bold sm:text-lg ${metric.accent}`}
+              >
+                {metric.value}
+              </p>
+              <p className="mt-0.5 text-xs text-[#94A3B8]">{metric.unit}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
