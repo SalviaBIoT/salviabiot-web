@@ -1,5 +1,5 @@
-import { ArrowUpRight, Mail, Radio, Sun } from "lucide-react";
-import { HUD_METRICS, SITE_CONFIG } from "../../data/ecosystem";
+import { ArrowDownRight, Cpu, Sparkles } from "lucide-react";
+import { HUD_METRICS } from "../../data/ecosystem";
 
 interface HeroSectionProps {
   onOpenPlatformGateway: () => void;
@@ -7,104 +7,122 @@ interface HeroSectionProps {
 
 export function HeroSection({ onOpenPlatformGateway }: HeroSectionProps) {
   return (
-    <section id="top" className="relative pt-14 pb-16 sm:pt-20 sm:pb-24">
-      {/* Halo orgánico bio-tech (esmeralda + calidez solar y tierra) */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-10 left-1/2 -z-10 h-72 w-[min(720px,92vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(0,255,136,0.18)_0%,rgba(250,204,21,0.08)_42%,rgba(198,139,83,0.05)_65%,transparent_80%)] blur-2xl"
-      />
+    <section id="top" className="relative pt-8 pb-14 sm:pt-12 sm:pb-18">
+      {/* Tarjeta Hero Editorial con SalviaBIoT_Login_Hero_1024x1024.jpg + scrim protector WCAG AAA */}
+      <div className="relative overflow-hidden rounded-3xl border border-white/[0.1] bg-[#0B1117] px-6 py-12 shadow-[0_24px_64px_rgba(0,0,0,0.65)] sm:px-12 sm:py-16 lg:py-20">
+        <img
+          src="/brand/SalviaBIoT_Login_Hero_1024x1024.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover object-center opacity-45"
+        />
 
-      <div className="mx-auto max-w-4xl text-center">
-        {/* Kicker status */}
-        <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-[#00ff88]/30 bg-[#00ff88]/8 px-4 py-1.5 font-mono text-xs tracking-[0.14em] text-[#00ff88] uppercase">
-          <Radio className="h-3.5 w-3.5" aria-hidden="true" />
-          <span>Ecosistema en despliegue · Colombia</span>
-        </div>
+        {/* Scrim protector multicapa #0B1117 para garantizar contraste WCAG AAA */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(11,17,23,0.82) 0%, rgba(11,17,23,0.72) 45%, rgba(11,17,23,0.95) 100%), radial-gradient(circle at 50% 30%, rgba(16,185,129,0.14) 0%, rgba(11,17,23,0.88) 70%)",
+          }}
+        />
 
-        <p
-          lang="en"
-          className="font-mono text-xs font-semibold tracking-[0.26em] text-[#c68b53] uppercase sm:text-sm"
-        >
-          Biological Internet of Things
-        </p>
+        <div className="relative z-10 mx-auto max-w-3xl text-center">
+          {/* Píldora superior con el ÚNICO LED #00FF88 ("EN VIVO") */}
+          <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-[#111922]/85 px-4 py-1.5 font-mono text-xs font-medium tracking-[0.12em] text-[#F8FAFC] backdrop-blur-md">
+            <span
+              className="pulse-dot-live inline-block h-2.5 w-2.5 rounded-full"
+              aria-hidden="true"
+            />
+            <span className="font-bold text-[#F8FAFC]">EN VIVO</span>
+            <span className="text-[#64748B]" aria-hidden="true">
+              ·
+            </span>
+            <span className="text-[#94A3B8]">Ecosistema en despliegue · CO</span>
+          </div>
 
-        {/* Único H1 de la página: tipografía Outfit amena, orgánica y tecnológica */}
-        <h1
-          id="contenido-principal"
-          tabIndex={-1}
-          className="brand-title mt-3 outline-none"
-        >
-          <span className="brand-title-organic">Salvia</span>
-          <span className="brand-title-accent">BIoT</span>
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-2xl text-lg font-medium text-[#c2e6d5] sm:text-2xl">
-          Inteligencia ambiental y sensores vivos para escuchar, comprender y
-          proteger nuestros ecosistemas.
-        </p>
-
-        <p className="mx-auto mt-4 max-w-2xl text-sm text-[#84a596] sm:text-base">
-          Conectamos estaciones solares en campo (
-          <strong className="text-[#facc15]">TerraBit Station · INTI</strong>),
-          memoria ambiental (<strong className="text-[#00ff88]">Savia</strong>)
-          y un asistente inteligente cercano (
-          <strong className="text-[#fb923c]">Mandarín</strong>) para cuidar
-          bosques altoandinos, páramos, cuencas hídricas y cultivos
-          regenerativos.
-        </p>
-
-        {/* CTAs principales */}
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3.5">
-          <button
-            type="button"
-            onClick={onOpenPlatformGateway}
-            className="inline-flex min-h-[46px] cursor-pointer items-center gap-2 rounded-md bg-[#00ff88] px-6 py-3 font-mono text-xs font-bold tracking-wider text-[#02120a] uppercase shadow-[0_0_28px_rgba(0,255,136,0.38)] transition-transform hover:-translate-y-0.5 hover:shadow-[0_0_38px_rgba(0,255,136,0.58)]"
+          <p
+            lang="en"
+            className="font-mono text-xs font-semibold tracking-[0.26em] text-[#AD703B] uppercase sm:text-sm"
           >
-            <span>Ingresar a {SITE_CONFIG.platformName}</span>
-            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </button>
+            SalviaBIoT · Biological Internet of Things
+          </p>
 
-          <a
-            href={`mailto:${SITE_CONFIG.emails.partnerships}`}
-            className="inline-flex min-h-[46px] items-center gap-2 rounded-md border border-[#c68b53]/45 bg-[#c68b53]/10 px-6 py-3 font-mono text-xs font-semibold tracking-wider text-[#f3e3d3] uppercase transition-colors hover:border-[#facc15] hover:bg-[#facc15]/12 hover:text-white"
+          {/* Único H1 de la página */}
+          <h1
+            id="contenido-principal"
+            tabIndex={-1}
+            className="brand-title mt-3 text-[#F8FAFC] outline-none"
           >
-            <Mail className="h-4 w-4 text-[#facc15]" aria-hidden="true" />
-            <span>Alianzas &amp; Pilotos</span>
-          </a>
+            De Sensores a{" "}
+            <span className="brand-title-accent">Decisiones</span>
+          </h1>
+
+          <p className="mx-auto mt-5 max-w-2xl text-lg font-medium text-[#CBD5E1] sm:text-2xl">
+            Telemetría Biológica e Inteligencia Ambiental de Precisión
+          </p>
+
+          <p className="mx-auto mt-3.5 max-w-xl text-sm leading-relaxed text-[#94A3B8] sm:text-base">
+            Estaciones modulares sobre{" "}
+            <strong className="text-[#F8FAFC]">ESP32-S3</strong>, memoria
+            territorial con{" "}
+            <strong className="text-[#34D399]">Savia</strong> y decisiones
+            accionables en campo con{" "}
+            <strong className="text-[#FB923C]">Mandarín</strong>.
+          </p>
+
+          {/* Doble CTA Editorial */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5">
+            <a
+              href="#estaciones"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl bg-[#10B981] px-6 py-3 font-mono text-xs font-bold tracking-wider text-[#04130D] uppercase shadow-[0_8px_28px_rgba(16,185,129,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#34D399]"
+            >
+              <Cpu className="h-4 w-4" aria-hidden="true" />
+              <span>Explorar Estaciones</span>
+              <ArrowDownRight className="h-4 w-4" aria-hidden="true" />
+            </a>
+
+            <a
+              href="#ia"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl border border-[#F97316]/45 bg-[#111922]/85 px-6 py-3 font-mono text-xs font-semibold tracking-wider text-[#F8FAFC] uppercase backdrop-blur-md transition-all hover:-translate-y-0.5 hover:border-[#F97316] hover:bg-[#F97316]/15"
+            >
+              <Sparkles className="h-4 w-4 text-[#F97316]" aria-hidden="true" />
+              <span>Conocer IA Savia &amp; Mandarín</span>
+            </a>
+          </div>
+
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={onOpenPlatformGateway}
+              className="cursor-pointer font-mono text-xs text-[#94A3B8] underline decoration-white/20 underline-offset-4 transition-colors hover:text-[#34D399] hover:decoration-[#34D399]"
+            >
+              ¿Ya cuentas con acceso piloto? Ingresar a Platform_SalviaBIoT &rarr;
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Barra HUD del Ecosistema */}
-      <div className="cyber-panel mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-[#00ff88]/25 bg-[#00ff88]/15 sm:grid-cols-4">
-        {HUD_METRICS.map((metric) => {
-          const isInti = metric.id === "inti";
-          return (
-            <div
-              key={metric.id}
-              className="bg-[#040f0a]/95 px-4 py-4 text-left sm:px-5"
+      {/* Barra HUD Compacta */}
+      <div className="mx-auto mt-6 grid max-w-5xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08] sm:grid-cols-4">
+        {HUD_METRICS.map((metric) => (
+          <div
+            key={metric.id}
+            className="bg-[#111922]/92 px-4 py-4 text-left sm:px-5"
+          >
+            <p className="font-mono text-[10px] font-semibold tracking-[0.16em] text-[#64748B] uppercase">
+              {metric.label}
+            </p>
+            <p
+              className={`tabular-nums mt-1 font-mono text-base font-bold sm:text-lg ${metric.accent}`}
             >
-              <p className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold tracking-[0.16em] text-[#84a596] uppercase">
-                {isInti && (
-                  <Sun
-                    className="h-3.5 w-3.5 text-[#facc15]"
-                    aria-hidden="true"
-                  />
-                )}
-                <span>{metric.label}</span>
-              </p>
-              <p
-                className={`tabular-nums mt-1 font-mono text-lg font-bold sm:text-xl ${
-                  isInti ? "text-[#facc15]" : "text-[#00ff88]"
-                }`}
-              >
-                {metric.value}
-              </p>
-              <p className="mt-0.5 font-mono text-[11px] text-[#b7d7c8]/80">
-                {metric.unit}
-              </p>
-            </div>
-          );
-        })}
+              {metric.value}
+            </p>
+            <p className="mt-0.5 font-mono text-[11px] text-[#94A3B8]">
+              {metric.unit}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );

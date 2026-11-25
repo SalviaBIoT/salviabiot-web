@@ -1,11 +1,29 @@
-export interface TriadLayer {
-  id: string;
+export type StationId = "trb" | "yku" | "wyr" | "apu";
+
+export interface StationModuleSpec {
+  id: StationId;
   code: string;
   name: string;
-  archetype: string;
+  domain: string;
+  svgPath: string;
+  accentHex: string;
+  accentBrightHex: string;
   summary: string;
-  highlights: string[];
-  accent: "solar" | "emerald" | "mandarin";
+  variables: string[];
+  engineering: string[];
+  application: string;
+  biomeBadge: string;
+}
+
+export interface EcosystemPillar {
+  id: string;
+  code: string;
+  title: string;
+  subtitle: string;
+  summary: string;
+  href: string;
+  ctaLabel: string;
+  accentHex: string;
 }
 
 export interface DataCycleStep {
@@ -17,14 +35,14 @@ export interface DataCycleStep {
 }
 
 export const SITE_CONFIG = {
-  version: "V1.2-ECOSYSTEM",
+  version: "v1.2",
   domain: "salviabiot.com",
   platformName: "Platform_SalviaBIoT",
   platformTargetUrl:
     import.meta.env.VITE_PLATFORM_URL ?? "https://app.salviabiot.com",
   platformLive: import.meta.env.VITE_PLATFORM_LIVE === "true",
   founder: "Daniel Felipe Duque Lizarralde",
-  founderRole: "Fundador y Estudiante de Ingeniería Electrónica BIoT",
+  founderRole: "Fundador · Ingeniería Electrónica BIoT (UTP)",
   location: "Pereira, Risaralda · Colombia",
   emails: {
     founder: "felipe@salviabiot.com",
@@ -36,107 +54,248 @@ export const SITE_CONFIG = {
 
 export const HUD_METRICS = [
   {
-    id: "inti",
-    label: "ESTACIÓN SOLAR INTI",
-    value: "INTI v4.5.2",
-    unit: "Panel solar + batería autónoma",
+    id: "base",
+    label: "PLACA BASE ÚNICA",
+    value: "ESP32-S3",
+    unit: "Bus modular + Savia Link",
+    accent: "text-[#FACC15]",
   },
   {
-    id: "response",
-    label: "RESPUESTA LOCAL",
+    id: "edge",
+    label: "PROCESAMIENTO EDGE",
     value: "< 120 ms",
-    unit: "Lectura filtrada y calibrada",
+    unit: "Calibración + filtro EMA",
+    accent: "text-[#10B981]",
   },
   {
-    id: "trace",
+    id: "dmrv",
     label: "TRAZABILIDAD",
-    value: "Auditada",
-    unit: "Respaldo científico ambiental",
+    value: "dMRV Auditada",
+    unit: "Integridad criptográfica",
+    accent: "text-[#38BDF8]",
   },
   {
     id: "territory",
-    label: "TERRITORIO",
-    value: "EN LÍNEA",
-    unit: "Eje Cafetero · Colombia",
+    label: "TERRITORIO ACTIVO",
+    value: "Eje Cafetero",
+    unit: "Pereira · Risaralda, CO",
+    accent: "text-[#F8FAFC]",
   },
 ] as const;
 
-export const ECOSYSTEM_TRIAD: TriadLayer[] = [
+export const ECOSYSTEM_PILLARS: EcosystemPillar[] = [
   {
-    id: "terrabit",
-    code: "[01 // PERCEPCIÓN · NODO SOLAR INTI]",
-    name: "TerraBit Station",
-    archetype: "Las Raíces y la Energía del Sol (Inti)",
+    id: "hardware",
+    code: "01 // PERCEPCIÓN EN CAMPO",
+    title: "Estaciones Modulares",
+    subtitle: "Placa base ESP32-S3 + energía solar INTI",
     summary:
-      "Estaciones autónomas alimentadas por energía solar instaladas en bosques altoandinos, páramos y cultivos regenerativos. Miden los signos vitales del suelo y el microclima limpiando interferencias desde el origen.",
-    highlights: [
-      "Autonomía con panel solar y batería de larga duración",
-      "Sensores calibrados con limpieza automática de ruido",
-      "Memoria interna de respaldo para zonas sin señal",
-    ],
-    accent: "solar",
+      "Cuatro dominios ambientales intercambiables (TerraBit, Yaku, Wayra y Apu) sobre una misma arquitectura electrónica resistente a montaña y niebla.",
+    href: "#estaciones",
+    ctaLabel: "Explorar 4 estaciones",
+    accentHex: "#AD703B",
   },
   {
     id: "savia",
-    code: "[02 // COGNICIÓN · INTELIGENCIA AMBIENTAL]",
-    name: "Savia",
-    archetype: "La Abuela Sabia y el Fluido Vital",
+    code: "02 // CORE AI AMBIENTAL",
+    title: "Savia · Sabiduría",
+    subtitle: "Lakehouse híbrido + trazabilidad dMRV",
     summary:
-      "Motor central de inteligencia ambiental dentro de Platform_SalviaBIoT. Cruza las mediciones a lo largo del tiempo con la memoria histórica del territorio para anticipar sequías, estrés hídrico y cambios críticos.",
-    highlights: [
-      "Análisis continuo de tendencias hídricas y climáticas",
-      "Memoria histórica del territorio con respaldo científico",
-      "Detección temprana de anomalías antes del daño crítico",
-    ],
-    accent: "emerald",
+      "Ingiere paquetes desde Savia Link, cruza series de tiempo con capas geoespaciales históricas y detecta anomalías antes del daño ecológico.",
+    href: "#ia",
+    ctaLabel: "Ver arquitectura Savia",
+    accentHex: "#10B981",
   },
   {
     id: "mandarin",
-    code: "[03 // INTERFAZ · SUBAGENTE INTÉRPRETE]",
-    name: "Mandarín",
-    archetype: "El Erudito Intérprete y los Gajos",
+    code: "03 // COPILOTO DE CAMPO",
+    title: "Mandarín · Traductor",
+    subtitle: "Decisiones divididas en gajos accionables",
     summary:
-      "Asistente inteligente que recibe paquetes complejos de información de los sensores y los separa en «gajos» claros y prácticos: diagnósticos humanos para guardabosques, biólogos, agricultores y comunidades.",
-    highlights: [
-      "Traduce lecturas técnicas a lenguaje claro y directo",
-      "Organiza cada alerta por tema: agua, clima y estación",
-      "Integrado nativamente con alertas en Platform_SalviaBIoT",
-    ],
-    accent: "mandarin",
+      "Convierte lecturas complejas y alertas de Savia en instrucciones claras y oportunas por Web, App o WhatsApp para productores y guardabosques.",
+    href: "#ia",
+    ctaLabel: "Probar Mandarín en vivo",
+    accentHex: "#F97316",
   },
 ];
+
+export const STATIONS: StationModuleSpec[] = [
+  {
+    id: "trb",
+    code: "TRB",
+    name: "TerraBit",
+    domain: "Tierra y Suelo",
+    svgPath: "/brand/stations/TRB_TerraBit_Oscuro.svg",
+    accentHex: "#AD703B",
+    accentBrightHex: "#D4955E",
+    summary:
+      "Nodo edáfico solar diseñado para medir salud radicular y retención hídrica sin deriva térmica ni ruido eléctrico.",
+    variables: [
+      "Humedad volumétrica (VWC)",
+      "Conductividad eléctrica (EC)",
+      "Temperatura edáfica multi-profundidad",
+    ],
+    engineering: [
+      "Calibración física suelo seco / agua",
+      "Filtro de media móvil exponencial (EMA)",
+      "Panel solar INTI + respaldo en flash LittleFS",
+    ],
+    application: "Caficultura de altura, suelos orgánicos y monitoreo de turberas.",
+    biomeBadge: "Suelo & Raíz · INTI",
+  },
+  {
+    id: "yku",
+    code: "YKU",
+    name: "Yaku",
+    domain: "Agua y Cuencas",
+    svgPath: "/brand/stations/YKU_Yaku_Oscuro.svg",
+    accentHex: "#0284C7",
+    accentBrightHex: "#38BDF8",
+    summary:
+      "Centinela hidrológico autónomo para vigilar calidad, nivel y estabilidad fisicoquímica de fuentes de agua vivas.",
+    variables: [
+      "Lámina de agua y caudal",
+      "pH y potencial redox (ORP)",
+      "Turbidez y temperatura hídrica",
+    ],
+    engineering: [
+      "Sondas selladas IP68 de bajo consumo",
+      "Compensación automática de temperatura",
+      "Alertas tempranas por avenidas o sedimentos",
+    ],
+    application: "Monitoreo continuo de quebradas, bocatomas y reservorios altoandinos.",
+    biomeBadge: "Cuencas Altoandinas",
+  },
+  {
+    id: "wyr",
+    code: "WYR",
+    name: "Wayra",
+    domain: "Aire y Atmósfera",
+    svgPath: "/brand/stations/WYR_Wayra_Oscuro.svg",
+    accentHex: "#94A3B8",
+    accentBrightHex: "#CBD5E1",
+    summary:
+      "Estación microclimática de alta precisión que caracteriza la demanda evaporativa y las condiciones del dosel vegetal.",
+    variables: [
+      "Temperatura y humedad relativa",
+      "Presión barométrica y viento (vel/dir)",
+      "Radiación PAR / UV y cálculo de VPD",
+    ],
+    engineering: [
+      "Cálculo local de Déficit de Presión de Vapor",
+      "Abrigo meteorológico ventilado anti-radiación",
+      "Detección de ventanas propicias para patógenos",
+    ],
+    application: "Microclima en cultivos regenerativos, bosques de niebla y apiarios.",
+    biomeBadge: "Microclima & VPD",
+  },
+  {
+    id: "apu",
+    code: "APU",
+    name: "Apu",
+    domain: "Nodo Maestro · Montaña y Páramo",
+    svgPath: "/brand/stations/APU_Apu_Oscuro.svg",
+    accentHex: "#10B981",
+    accentBrightHex: "#34D399",
+    summary:
+      "Concentrador territorial y puente de telemetría resiliente que articula múltiples nodos de campo en zonas sin cobertura.",
+    variables: [
+      "Enrutamiento malla LoRa sub-GHz",
+      "Cómputo Edge y compresión de paquetes",
+      "Telemetría de salud y energía de la red",
+    ],
+    engineering: [
+      "Enlace ascendente LTE / Satelital hacia Savia",
+      "Buffer persistente en MicroSD + LittleFS",
+      "Sincronización segura vía protocolo Savia Link",
+    ],
+    application: "Despliegues de alta montaña, reservas naturales y corredores de páramo.",
+    biomeBadge: "Gateway Edge LoRa",
+  },
+];
+
+export const AI_AGENTS = {
+  savia: {
+    name: "Savia",
+    role: "Sabiduría de la Tierra · Core AI",
+    tagline:
+      "Motor cognitivo central que transforma corrientes continuas de telemetría en memoria viva y trazabilidad científica del territorio.",
+    specs: [
+      {
+        label: "Ingesta",
+        value: "Protocolo Savia Link autenticado con tolerancia a desconexión.",
+      },
+      {
+        label: "Almacenamiento",
+        value: "Lakehouse híbrido: series de tiempo + capas geoespaciales.",
+      },
+      {
+        label: "Inteligencia",
+        value: "Memoria histórica territorial y detección temprana de anomalías hídricas/climáticas.",
+      },
+      {
+        label: "Integridad",
+        value: "Trazabilidad criptográfica dMRV lista para auditoría de conservación.",
+      },
+    ],
+  },
+  mandarin: {
+    name: "Mandarín",
+    role: "Copiloto de Campo · Subagente Traductor",
+    tagline:
+      "Intérprete cercano que descompone la complejidad analítica de Savia en gajos claros y accionables para quienes cuidan la tierra.",
+    specs: [
+      {
+        label: "Arquitectura",
+        value: "Diagnóstico en «gajos» independientes: agua, microclima, energía y acción.",
+      },
+      {
+        label: "Operación",
+        value: "Genera alertas hídricas y planes de riego programado o de rescate.",
+      },
+      {
+        label: "Contexto",
+        value: "Diagnóstico microclimático y reportes ejecutivos de conservación.",
+      },
+      {
+        label: "Canales",
+        value: "Lenguaje humano directo a través de Web, App y WhatsApp en campo.",
+      },
+    ],
+  },
+} as const;
 
 export const DATA_CYCLE_STEPS: DataCycleStep[] = [
   {
     step: "01",
-    title: "La Escucha en la Tierra",
-    layer: "TerraBit · Nodo INTI",
+    title: "Percepción en Tierra",
+    layer: "TRB · YKU · WYR · APU",
     description:
-      "En medio del bosque de niebla o la parcela, los sensores solares miden humedad del suelo, temperatura y microclima, convirtiendo cada pulso natural en lecturas confiables.",
+      "Las estaciones sobre ESP32-S3 capturan señales del suelo, agua y aire, aplican calibración física + filtro EMA y transmiten vía Savia Link.",
     tone: "earth",
   },
   {
     step: "02",
-    title: "La Circulación en el Tronco",
-    layer: "Savia · Plataforma",
+    title: "Memoria en Savia",
+    layer: "Savia · Core AI",
     description:
-      "Los paquetes de información de los sensores suben hacia Savia, que los compara con el historial del territorio para detectar cambios inusuales en el agua o el clima.",
+      "El Lakehouse híbrido consolida series temporales y contexto geoespacial para detectar anomalías y sellar evidencia dMRV.",
     tone: "emerald",
   },
   {
     step: "03",
-    title: "La Entrega en el Fruto",
-    layer: "Mandarín · IA",
+    title: "Gajos en Mandarín",
+    layer: "Mandarín · Copiloto",
     description:
-      "Mandarín divide el análisis profundo en gajos fáciles de entender y entrega alertas claras, empáticas y sin ruido técnico innecesario.",
+      "Los datos complejos se dividen en gajos comprensibles: estado hídrico, alerta de microclima, plan de riego y salud del nodo.",
     tone: "mandarin",
   },
   {
     step: "04",
-    title: "La Sanación en el Bosque",
-    layer: "Acción Territorial",
+    title: "Sanación del Territorio",
+    layer: "Acción Regenerativa",
     description:
-      "Comunidades, investigadores y agricultores actúan a tiempo para proteger la cuenca o regar con precisión, cerrando el ciclo de reciprocidad tecnológica.",
+      "Productores, investigadores y comunidades intervienen con precisión en el momento justo, cerrando el ciclo de reciprocidad tecnológica.",
     tone: "ecosystem",
   },
 ];
@@ -145,19 +304,22 @@ export const ETYMOLOGY_ROOTS = [
   {
     word: "Salvare",
     origin: "Latín",
-    meaning: "Sanar, conservar y mantener íntegro el propósito ético de cuidado ambiental.",
+    meaning:
+      "Sanar, conservar y sostener el propósito ético de cuidado sobre cada cuenca y suelo.",
     tone: "emerald" as const,
   },
   {
     word: "Silva",
     origin: "Latín · Linaje",
-    meaning: "Bosque vivo y homenaje a nuestro origen familiar unido a la protección de la tierra.",
+    meaning:
+      "Bosque vivo y homenaje a nuestro origen familiar ligado al respeto por la tierra.",
     tone: "earth" as const,
   },
   {
     word: "Sage",
     origin: "Inglés",
-    meaning: "Sabiduría viva: el puente global que traduce la memoria del ecosistema en decisiones.",
+    meaning:
+      "Sabiduría viva: el puente técnico que traduce la memoria del ecosistema en decisiones.",
     tone: "solar" as const,
   },
 ];

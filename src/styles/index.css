@@ -1,11 +1,8 @@
+@import "@fontsource/outfit/400.css";
 @import "@fontsource/outfit/500.css";
 @import "@fontsource/outfit/600.css";
 @import "@fontsource/outfit/700.css";
 @import "@fontsource/outfit/800.css";
-@import "@fontsource/plus-jakarta-sans/400.css";
-@import "@fontsource/plus-jakarta-sans/500.css";
-@import "@fontsource/plus-jakarta-sans/600.css";
-@import "@fontsource/plus-jakarta-sans/700.css";
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 @import "@fontsource/jetbrains-mono/600.css";
@@ -14,52 +11,63 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Outfit", "Plus Jakarta Sans", sans-serif;
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  --font-display: "Outfit", sans-serif;
+  --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, monospace;
 }
 
 /* ==========================================================================
-   SalviaBIoT — Cyberpunk Bio-Tech Design System (v1.2)
-   Paleta: Esmeralda Savia · Amarillo Solar INTI · Naranja Mandarín · Ámbar Tierra
+   SalviaBIoT — Obsidiana Bio-Tech Design System (v1.2)
+   Fuente Única: brand-tokens.json
    ========================================================================== */
 :root {
   color-scheme: dark;
 
-  --bg-void: #030a07;
-  --bg-surface: #07140e;
-  --bg-panel: rgba(8, 22, 16, 0.78);
-  --bg-panel-strong: rgba(10, 28, 20, 0.92);
+  --bg-void: #0B1117;
+  --bg-surface: #111922;
+  --bg-elevated: #16202B;
+  --bg-panel: rgba(17, 25, 34, 0.78);
+  --bg-panel-strong: rgba(17, 25, 34, 0.94);
 
-  --neon-green: #00ff88;
-  --emerald-core: #10b981;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-emerald: rgba(16, 185, 129, 0.28);
+  --border-emerald-strong: rgba(16, 185, 129, 0.52);
+
+  --text-main: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  --emerald-core: #10B981;
+  --emerald-bright: #34D399;
   --emerald-dim: #059669;
 
-  --inti-solar: #facc15;
-  --inti-gold: #eab308;
+  --inti-solar: #FACC15;
   --inti-border: rgba(250, 204, 21, 0.34);
 
-  --earth-amber: #c68b53;
-  --earth-coffee: #9a6534;
-  --earth-border: rgba(198, 139, 83, 0.34);
+  --earth-amber: #AD703B;
+  --earth-coffee: #8E582B;
+  --earth-border: rgba(173, 112, 59, 0.36);
 
-  --mandarin-primary: #f97316;
-  --mandarin-glow: #ff8c32;
-  --mandarin-bright: #fb923c;
-  --mandarin-soft: rgba(249, 115, 22, 0.14);
-  --mandarin-border: rgba(249, 115, 22, 0.36);
+  --yaku-primary: #0284C7;
+  --yaku-bright: #38BDF8;
+  --yaku-highlight: #7DD3FC;
 
-  --border-cyber: rgba(0, 255, 136, 0.22);
-  --border-cyber-strong: rgba(0, 255, 136, 0.5);
+  --wayra-primary: #94A3B8;
+  --wayra-bright: #CBD5E1;
+  --wayra-secondary: #64748B;
 
-  --text-main: #e6f7ef;
-  --text-secondary: #b7d7c8;
-  --text-muted: #84a596;
+  --mandarin-primary: #F97316;
+  --mandarin-glow: #FF8C32;
+  --mandarin-bright: #FB923C;
+  --mandarin-border: rgba(249, 115, 22, 0.38);
 
-  scrollbar-color: #1c3d2e #030a07;
-  accent-color: var(--neon-green);
+  /* Regla estricta SolarPunk: uso exclusivo en .pulse-dot-live (LED EN VIVO) */
+  --telemetry-live: #00FF88;
+
+  scrollbar-color: #2B3A4A #0B1117;
+  accent-color: var(--emerald-core);
 }
 
 html {
@@ -78,12 +86,12 @@ body {
   min-height: 100dvh;
   background-color: var(--bg-void);
   background-image:
-    radial-gradient(ellipse 78% 42% at 50% 0%, rgba(0, 255, 136, 0.14) 0%, transparent 58%),
-    radial-gradient(circle at 14% 26%, rgba(198, 139, 83, 0.08) 0%, transparent 38%),
-    radial-gradient(circle at 86% 34%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
-    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    radial-gradient(ellipse 75% 38% at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 12% 28%, rgba(173, 112, 59, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 88% 36%, rgba(2, 132, 199, 0.06) 0%, transparent 42%),
+    linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
   color: var(--text-main);
   font-family: var(--font-sans);
   line-height: 1.6;
@@ -91,33 +99,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Indicadores de foco accesibles globales (outline + offset, contrast >= 3:1) */
+/* Indicadores de foco accesibles globales */
 :where(a[href], button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--neon-green);
+  outline: 2px solid var(--emerald-core);
   outline-offset: 3px;
 }
 
-/* Tipografía Display: amena, orgánica y tecnológica (Outfit) */
+/* Tipografía Display Editorial */
 .brand-title {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 9.5vw, 6.75rem);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-}
-
-.brand-title-organic {
-  color: #f4fbf7;
-  font-weight: 600;
+  font-size: clamp(2.65rem, 6.4vw, 4.75rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.028em;
 }
 
 .brand-title-accent {
-  background: linear-gradient(115deg, #00ff88 0%, #6ee7b7 48%, #facc15 100%);
+  background: linear-gradient(115deg, #10B981 0%, #34D399 52%, #FACC15 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  font-weight: 800;
-  filter: drop-shadow(0 0 26px rgba(0, 255, 136, 0.36));
 }
 
 /* Números tabulares para telemetría */
@@ -126,7 +127,7 @@ body {
   font-feature-settings: "tnum" 1;
 }
 
-/* Sliders nativos estilizados con accent-color para el simulador de Mandarín */
+/* Sliders nativos estilizados para el simulador de Mandarín */
 .sensor-range {
   width: 100%;
   height: 6px;
@@ -153,67 +154,67 @@ body {
   left: 14px;
   z-index: 9999;
   padding: 10px 18px;
-  border-radius: 6px;
-  background-color: var(--neon-green);
-  color: #02120a;
+  border-radius: 8px;
+  background-color: var(--emerald-core);
+  color: #04130D;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.85rem;
   text-decoration: none;
-  box-shadow: 0 0 28px rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.45);
 }
 
-/* Superficies Cyberpunk Bio-Tech */
-.cyber-panel {
+/* Superficies Obsidiana Bio-Tech */
+.bio-panel {
   background: var(--bg-panel);
-  border: 1px solid var(--border-cyber);
+  border: 1px solid var(--border-subtle);
   backdrop-filter: blur(12px);
   box-shadow:
-    inset 0 1px 0 rgba(0, 255, 136, 0.08),
-    0 12px 32px rgba(0, 0, 0, 0.45);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 12px 32px rgba(0, 0, 0, 0.42);
 }
 
-.cyber-panel-solar {
+.bio-panel-savia {
   background: linear-gradient(
     145deg,
-    rgba(250, 204, 21, 0.08) 0%,
-    rgba(198, 139, 83, 0.06) 35%,
-    rgba(8, 22, 16, 0.88) 70%,
-    rgba(3, 10, 7, 0.94) 100%
+    rgba(16, 185, 129, 0.09) 0%,
+    rgba(2, 132, 199, 0.06) 38%,
+    rgba(17, 25, 34, 0.92) 72%,
+    rgba(11, 17, 23, 0.96) 100%
   );
-  border: 1px solid var(--inti-border);
+  border: 1px solid var(--border-emerald);
   backdrop-filter: blur(12px);
   box-shadow:
-    inset 0 1px 0 rgba(250, 204, 21, 0.14),
-    0 14px 36px rgba(0, 0, 0, 0.48);
+    inset 0 1px 0 rgba(16, 185, 129, 0.14),
+    0 16px 40px rgba(0, 0, 0, 0.46);
 }
 
-.cyber-panel-mandarin {
+.bio-panel-earth {
   background: linear-gradient(
     145deg,
-    rgba(249, 115, 22, 0.08) 0%,
-    rgba(8, 22, 16, 0.88) 55%,
-    rgba(3, 10, 7, 0.94) 100%
-  );
-  border: 1px solid var(--mandarin-border);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    inset 0 1px 0 rgba(251, 146, 60, 0.14),
-    0 16px 40px rgba(0, 0, 0, 0.52);
-}
-
-.cyber-panel-earth {
-  background: linear-gradient(
-    145deg,
-    rgba(198, 139, 83, 0.1) 0%,
-    rgba(8, 22, 16, 0.86) 55%,
-    rgba(3, 10, 7, 0.94) 100%
+    rgba(173, 112, 59, 0.11) 0%,
+    rgba(17, 25, 34, 0.9) 55%,
+    rgba(11, 17, 23, 0.96) 100%
   );
   border: 1px solid var(--earth-border);
   backdrop-filter: blur(12px);
   box-shadow:
-    inset 0 1px 0 rgba(198, 139, 83, 0.16),
-    0 14px 36px rgba(0, 0, 0, 0.48);
+    inset 0 1px 0 rgba(173, 112, 59, 0.16),
+    0 14px 36px rgba(0, 0, 0, 0.46);
+}
+
+.bio-panel-mandarin {
+  background: linear-gradient(
+    145deg,
+    rgba(249, 115, 22, 0.1) 0%,
+    rgba(17, 25, 34, 0.92) 55%,
+    rgba(11, 17, 23, 0.96) 100%
+  );
+  border: 1px solid var(--mandarin-border);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(251, 146, 60, 0.16),
+    0 16px 40px rgba(0, 0, 0, 0.48);
 }
 
 /* Modal nativo <dialog> accesible */
@@ -223,23 +224,23 @@ dialog.cyber-dialog {
   max-height: calc(100dvh - 2rem);
   overflow-y: auto;
   overscroll-behavior: contain;
-  border-radius: 14px;
-  border: 1px solid var(--border-cyber-strong);
-  background: #06130d;
+  border-radius: 16px;
+  border: 1px solid var(--border-emerald-strong);
+  background: #111922;
   color: var(--text-main);
   padding: 0;
   box-shadow:
-    0 0 48px rgba(0, 255, 136, 0.18),
-    0 24px 64px rgba(0, 0, 0, 0.75);
+    0 0 48px rgba(16, 185, 129, 0.16),
+    0 24px 64px rgba(0, 0, 0, 0.78);
 }
 
 dialog.cyber-dialog::backdrop {
-  background: rgba(2, 8, 5, 0.78);
+  background: rgba(11, 17, 23, 0.82);
   backdrop-filter: blur(6px);
 }
 
 /* ==========================================================================
-   Animaciones — Opt-in con prefers-reduced-motion: no-preference (Compositor)
+   Animaciones Limpias (Compositor · WCAG 2.2.2)
    ========================================================================== */
 @keyframes pulse-live {
   0%,
@@ -253,35 +254,19 @@ dialog.cyber-dialog::backdrop {
   }
 }
 
-@keyframes mandarino-orbit {
-  from {
-    transform: rotate(0deg);
-  }
+@keyframes orbit-cw {
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes mandarino-orbit-reverse {
-  from {
-    transform: rotate(360deg);
-  }
+@keyframes orbit-ccw {
   to {
-    transform: rotate(0deg);
+    transform: rotate(-360deg);
   }
 }
 
-@keyframes mandarino-sway {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-5px) rotate(1.6deg);
-  }
-}
-
-@keyframes mandarino-wave {
+@keyframes agent-dot-wave {
   0%,
   80%,
   100% {
@@ -289,18 +274,15 @@ dialog.cyber-dialog::backdrop {
     opacity: 0.4;
   }
   40% {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     opacity: 1;
   }
 }
 
+/* Único punto autorizado para #00FF88 */
 .pulse-dot-live {
-  background: var(--neon-green);
-  box-shadow: 0 0 12px var(--neon-green);
-}
-
-.mandarino-sway {
-  filter: drop-shadow(0 8px 18px rgba(249, 115, 22, 0.3));
+  background: var(--telemetry-live);
+  box-shadow: 0 0 10px var(--telemetry-live);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -308,41 +290,41 @@ dialog.cyber-dialog::backdrop {
     animation: pulse-live 2.2s ease-in-out infinite;
   }
 
-  .mandarino-ring {
-    animation: mandarino-orbit 14s linear infinite;
+  .agent-ring-outer {
+    animation: orbit-cw 28s linear infinite;
   }
 
-  .mandarino-ring-fast {
-    animation: mandarino-orbit 4.5s linear infinite;
+  .agent-ring-inner {
+    animation: orbit-ccw 18s linear infinite;
   }
 
-  .mandarino-ring-outer {
-    animation: mandarino-orbit-reverse 24s linear infinite;
+  .agent-ring-outer-fast {
+    animation: orbit-cw 8s linear infinite;
   }
 
-  .mandarino-sway {
-    animation: mandarino-sway 4.4s ease-in-out infinite;
+  .agent-ring-inner-fast {
+    animation: orbit-ccw 5s linear infinite;
   }
 
-  .mandarino-dot {
-    animation: mandarino-wave 1.15s ease-in-out infinite;
+  .agent-dot {
+    animation: agent-dot-wave 1.15s ease-in-out infinite;
   }
 
-  .mandarino-dot:nth-child(2) {
+  .agent-dot:nth-child(2) {
     animation-delay: 0.16s;
   }
 
-  .mandarino-dot:nth-child(3) {
+  .agent-dot:nth-child(3) {
     animation-delay: 0.32s;
   }
 }
 
 /* Control explícito de pausa accesible (WCAG 2.2.2) */
-[data-motion="paused"] .mandarino-ring,
-[data-motion="paused"] .mandarino-ring-fast,
-[data-motion="paused"] .mandarino-ring-outer,
-[data-motion="paused"] .mandarino-sway,
-[data-motion="paused"] .mandarino-dot,
+[data-motion="paused"] .agent-ring-outer,
+[data-motion="paused"] .agent-ring-inner,
+[data-motion="paused"] .agent-ring-outer-fast,
+[data-motion="paused"] .agent-ring-inner-fast,
+[data-motion="paused"] .agent-dot,
 [data-motion="paused"] .pulse-dot-live {
   animation-play-state: paused !important;
 }
@@ -352,10 +334,10 @@ dialog.cyber-dialog::backdrop {
    ========================================================================== */
 @media (prefers-reduced-motion: no-preference) {
   @supports ((animation-timeline: view()) and (animation-range: entry)) {
-    @keyframes cyber-reveal-in {
+    @keyframes bio-reveal-in {
       from {
         opacity: 0.15;
-        transform: translateY(20px);
+        transform: translateY(18px);
       }
       to {
         opacity: 1;
@@ -364,9 +346,9 @@ dialog.cyber-dialog::backdrop {
     }
 
     .scroll-reveal {
-      animation: cyber-reveal-in auto linear backwards;
+      animation: bio-reveal-in auto linear backwards;
       animation-timeline: view();
-      animation-range: entry 0% entry 35%;
+      animation-range: entry 0% entry 30%;
     }
   }
 }

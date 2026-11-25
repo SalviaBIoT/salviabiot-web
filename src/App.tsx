@@ -2,12 +2,13 @@ import { useState } from "react";
 import { PlatformDialog } from "./components/common/PlatformDialog";
 import { Footer } from "./components/layout/Footer";
 import { Navbar } from "./components/layout/Navbar";
+import { AIEcosystemModule } from "./components/sections/AIEcosystemModule";
 import { DataCycleSection } from "./components/sections/DataCycleSection";
-import { EcosystemTriad } from "./components/sections/EcosystemTriad";
+import { EcosystemOverview } from "./components/sections/EcosystemOverview";
 import { HeroSection } from "./components/sections/HeroSection";
-import { MandarinShowcase } from "./components/sections/MandarinShowcase";
 import { ManifestoSection } from "./components/sections/ManifestoSection";
 import { PlatformGateway } from "./components/sections/PlatformGateway";
+import { StationsModule } from "./components/sections/StationsModule";
 
 export function App() {
   const [motionPaused, setMotionPaused] = useState(false);
@@ -19,16 +20,17 @@ export function App() {
 
       <main className="mx-auto max-w-6xl px-4 sm:px-6">
         <HeroSection onOpenPlatformGateway={() => setPlatformDialogOpen(true)} />
-        <EcosystemTriad />
-        <MandarinShowcase
+        <EcosystemOverview />
+        <StationsModule />
+        <AIEcosystemModule
           motionPaused={motionPaused}
           onToggleMotion={() => setMotionPaused((prev) => !prev)}
         />
         <DataCycleSection />
+        <ManifestoSection />
         <PlatformGateway
           onOpenPlatformGateway={() => setPlatformDialogOpen(true)}
         />
-        <ManifestoSection />
       </main>
 
       <Footer onOpenPlatformGateway={() => setPlatformDialogOpen(true)} />
