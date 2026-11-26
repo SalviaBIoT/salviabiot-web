@@ -1,5 +1,6 @@
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { SITE_CONFIG } from "../../data/ecosystem";
 
 interface NavbarProps {
   onOpenPlatformGateway: () => void;
@@ -7,6 +8,31 @@ interface NavbarProps {
 
 export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [socialsOpen, setSocialsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setSocialsOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSocialsOpen(false);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0B1117]/90 backdrop-blur-md">
@@ -34,7 +60,7 @@ export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
             <li>
               <a
                 href="#ecosistema"
-                className="inline-flex min-h-[40px] items-center rounded-lg px-3.5 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#34D399]"
+                className="inline-flex min-h-[40px] items-center rounded-lg px-3 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#34D399]"
               >
                 Ecosistema
               </a>
@@ -42,7 +68,7 @@ export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
             <li>
               <a
                 href="#estaciones"
-                className="inline-flex min-h-[40px] items-center rounded-lg px-3.5 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#D4955E]"
+                className="inline-flex min-h-[40px] items-center rounded-lg px-3 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#D4955E]"
               >
                 Estaciones
               </a>
@@ -50,7 +76,7 @@ export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
             <li>
               <a
                 href="#ia"
-                className="group inline-flex min-h-[40px] items-center gap-1 rounded-lg px-3.5 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04]"
+                className="group inline-flex min-h-[40px] items-center gap-1 rounded-lg px-3 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04]"
               >
                 <span className="transition-colors group-hover:text-[#F8FAFC]">
                   IA
@@ -67,18 +93,75 @@ export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
             <li>
               <a
                 href="#ciclo-dato"
-                className="inline-flex min-h-[40px] items-center rounded-lg px-3.5 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#38BDF8]"
+                className="inline-flex min-h-[40px] items-center rounded-lg px-3 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#38BDF8]"
               >
                 Ciclo del Dato
               </a>
             </li>
             <li>
               <a
-                href="#manifiesto"
-                className="inline-flex min-h-[40px] items-center rounded-lg px-3.5 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#FACC15]"
+                href="#brief"
+                className="inline-flex min-h-[40px] items-center rounded-lg px-3 text-sm font-medium text-[#CBD5E1] transition-colors hover:bg-white/[0.04] hover:text-[#34D399]"
               >
-                Manifiesto
+                Pilotos
               </a>
+            </li>
+
+            {/* Desplegable de Redes Oficiales */}
+            <li ref={dropdownRef} className="relative">
+              <button
+                type="button"
+                aria-expanded={socialsOpen}
+                aria-haspopup="true"
+                onClick={() => setSocialsOpen((prev) => !prev)}
+                className={`inline-flex min-h-[40px] cursor-pointer items-center gap-1 rounded-lg px-3 text-sm font-medium transition-colors hover:bg-white/[0.04] ${
+                  socialsOpen
+                    ? "bg-white/[0.05] text-[#34D399]"
+                    : "text-[#CBD5E1] hover:text-[#34D399]"
+                }`}
+              >
+                <span>Redes</span>
+                <ChevronDown
+                  className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                    socialsOpen ? "rotate-180" : ""
+                  }`}
+                  aria-hidden="true"
+                />
+              </button>
+
+              {socialsOpen && (
+                <div className="absolute right-0 mt-2 w-60 rounded-2xl border border-white/[0.12] bg-[#0B1117]/95 p-2 shadow-2xl backdrop-blur-xl">
+                  <div className="px-2.5 py-1.5 font-mono text-[10px] font-semibold tracking-wider text-[#10B981] uppercase">
+                    // Canales Oficiales
+                  </div>
+                  <ul className="mt-1 space-y-0.5">
+                    {SITE_CONFIG.socials.map((social) => (
+                      <li key={social.id}>
+                        <a
+                          href={social.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={() => setSocialsOpen(false)}
+                          className="flex items-center justify-between rounded-xl px-2.5 py-2 text-xs transition-colors hover:bg-white/[0.06]"
+                        >
+                          <div>
+                            <span className="block font-medium text-[#F8FAFC]">
+                              {social.label}
+                            </span>
+                            <span className="font-mono text-[11px] text-[#94A3B8]">
+                              {social.handle}
+                            </span>
+                          </div>
+                          <ArrowUpRight
+                            className="h-3.5 w-3.5 text-[#10B981]"
+                            aria-hidden="true"
+                          />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </li>
           </ul>
         </nav>
@@ -160,14 +243,35 @@ export function Navbar({ onOpenPlatformGateway }: NavbarProps) {
             </li>
             <li>
               <a
-                href="#manifiesto"
+                href="#brief"
                 onClick={() => setMobileOpen(false)}
-                className="flex min-h-[44px] items-center rounded-lg px-3 transition-colors hover:bg-white/[0.05] hover:text-[#FACC15]"
+                className="flex min-h-[44px] items-center rounded-lg px-3 transition-colors hover:bg-white/[0.05] hover:text-[#34D399]"
               >
-                Manifiesto
+                Solicitar Piloto · Brief
               </a>
             </li>
           </ul>
+
+          <div className="mt-3 border-t border-white/[0.08] pt-3">
+            <p className="px-3 font-mono text-[10px] font-semibold tracking-wider text-[#10B981] uppercase">
+              // Redes Oficiales
+            </p>
+            <div className="mt-2 grid grid-cols-2 gap-1.5 px-1">
+              {SITE_CONFIG.socials.map((social) => (
+                <a
+                  key={social.id}
+                  href={social.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-between rounded-lg border border-white/[0.08] bg-[#0B1117]/70 px-3 py-2 text-xs text-[#CBD5E1] transition-colors hover:border-[#10B981]/50 hover:text-[#34D399]"
+                >
+                  <span>{social.label}</span>
+                  <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          </div>
         </nav>
       )}
     </header>

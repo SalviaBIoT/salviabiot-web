@@ -70,25 +70,6 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
                 </a>
               </li>
             </ul>
-
-            <h3 className="mt-6 font-mono text-[11px] font-semibold tracking-[0.15em] text-[#94A3B8] uppercase">
-              // Redes Oficiales
-            </h3>
-            <div className="mt-2.5 flex flex-wrap gap-2">
-              {SITE_CONFIG.socials.map((social) => (
-                <a
-                  key={social.id}
-                  href={social.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${social.label} de SalviaBIoT`}
-                  className="inline-flex items-center gap-1 rounded-lg border border-white/[0.1] bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-[#CBD5E1] transition-colors hover:border-[#10B981]/50 hover:text-[#34D399]"
-                >
-                  <span>{social.label}</span>
-                  <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Canales Oficiales */}
@@ -128,13 +109,52 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.08] pt-6 font-mono text-[11px] text-[#64748B]">
+        {/* Banda dedicada de Redes Sociales Oficiales */}
+        <div className="mt-10 border-t border-white/[0.08] pt-8">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="font-mono text-xs font-semibold tracking-[0.15em] text-[#10B981] uppercase">
+              // Canales &amp; Redes Oficiales
+            </h2>
+            <span className="font-mono text-[11px] text-[#64748B]">
+              Conecta con el ecosistema en tiempo real
+            </span>
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {SITE_CONFIG.socials.map((social) => (
+              <a
+                key={social.id}
+                href={social.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${social.label} oficial de SalviaBIoT (${social.handle})`}
+                className="group flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-white/[0.02] p-3.5 transition-all hover:-translate-y-0.5 hover:border-[#10B981]/50 hover:bg-[#10B981]/[0.06]"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-semibold text-[#F8FAFC] transition-colors group-hover:text-[#34D399]">
+                    {social.label}
+                  </span>
+                  <ArrowUpRight
+                    className="h-3.5 w-3.5 text-[#64748B] transition-colors group-hover:text-[#34D399]"
+                    aria-hidden="true"
+                  />
+                </div>
+                <span className="mt-1.5 truncate font-mono text-[11px] text-[#94A3B8]">
+                  {social.handle}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.08] pt-6 font-mono text-[11px] text-[#64748B]">
           <p>
-            &copy; {new Date().getFullYear()} SalviaBIoT · Identidad{" "}
-            {SITE_CONFIG.version} ·{" "}
+            &copy; {new Date().getFullYear()} SalviaBIoT ·{" "}
             <span lang="en">Biological Internet of Things</span>.
           </p>
-          <p>{SITE_CONFIG.domain} · Pereira, Colombia</p>
+          <p>
+            {SITE_CONFIG.domain} · {SITE_CONFIG.version} · Pereira, Colombia
+          </p>
         </div>
       </div>
     </footer>

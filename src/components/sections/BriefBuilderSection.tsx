@@ -31,19 +31,14 @@ const SCALE_OPTIONS = [
 ] as const;
 
 export function BriefBuilderSection() {
-  const [projectType, setProjectType] = useState<string>(PROJECT_TYPES[0]);
+  const [projectType, setProjectType] = useState<string>("");
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
   const [location, setLocation] = useState("");
   const [contact, setContact] = useState("");
-  const [domains, setDomains] = useState<string[]>([
-    "TRB · TerraBit (Suelo)",
-    "Savia & Mandarín (IA)",
-  ]);
-  const [connectivity, setConnectivity] = useState<string>(
-    CONNECTIVITY_OPTIONS[0],
-  );
-  const [scale, setScale] = useState<string>(SCALE_OPTIONS[0]);
+  const [domains, setDomains] = useState<string[]>([]);
+  const [connectivity, setConnectivity] = useState<string>("");
+  const [scale, setScale] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -53,23 +48,29 @@ export function BriefBuilderSection() {
     );
   };
 
-  const briefText = useMemo(() => {
-    const lines = [
-      "[BRIEF_SALVIABIOT_V1]",
-      `• Tipo de proyecto: ${projectType}`,
-      `• Responsable: ${name.trim() || "Por definir"}`,
-      `• Organización / Finca: ${organization.trim() || "Por definir"}`,
-      `• Territorio / Altitud: ${location.trim() || "Por definir"}`,
-      `• Contacto de retorno: ${contact.trim() || "Por definir"}`,
-      `• Capas de interés: ${domains.length > 0 ? domains.join(", ") : "Por definir"}`,
-      `• Conectividad en zona: ${connectivity}`,
-      `• Escala estimada: ${scale}`,
-    ];
-    if (notes.trim()) {
-      lines.push(`• Contexto / Reto: ${notes.trim()}`);
-    }
-    lines.push("— Generado desde salviabiot.com");
-    return lines.join("\n");
+  const toggleSingle = (
+    current: string,
+    next: string,
+    setter: (value: string) => void,
+  ) => {
+    setter(current === next ? "" : next);
+  };
+
+  const briefLines = useMemo(() => {
+    const lines: string[] = [];
+    if (projectType) lines.push(`• Tipo de proyecto: ${projectType}`);
+    if (name.trim()) lines.push(`• Responsable: ${name.trim()}`);
+    if (organization.trim())
+      lines.push(`• Organización / Finca: ${organization.trim()}`);
+    if (location.trim())
+      lines.push(`• Territorio / Altitud: ${location.trim()}`);
+    if (contact.trim()) lines.push(`• Contacto de retorno: ${contact.trim()}`);
+    if (domains.length > 0)
+      lines.push(`• Capas de interés: ${domains.join(", ")}`);
+    if (connectivity) lines.push(`• Conectividad en zona: ${connectivity}`);
+    if (scale) lines.push(`• Escala estimada: ${scale}`);
+    if (notes.trim()) lines.push(`• Contexto / Reto: ${notes.trim()}`);
+    return lines;
   }, [
     projectType,
     name,
@@ -82,10 +83,21 @@ export function BriefBuilderSection() {
     notes,
   ]);
 
+  const hasContent = briefLines.length > 0;
+
+  const briefText = useMemo(() => {
+    if (!hasContent) return "";
+    return [
+      "[BRIEF_SALVIABIOT_V1]",
+      ...briefLines,
+      "— Generado desde salviabiot.com",
+    ].join("\n");
+  }, [hasContent, briefLines]);
+
   const mailtoHref = useMemo(() => {
-    const subject = `[Brief SalviaBIoT] ${projectType}${
-      organization.trim() ? ` · ${organization.trim()}` : ""
-    }`;
+    const subject = `[Brief SalviaBIoT]${
+      projectType ? ` ${projectType}` : " Solicitud de Piloto / Alianza"
+    }${organization.trim() ? ` · ${organization.trim()}` : ""}`;
     return `mailto:${SITE_CONFIG.emails.partnerships}?subject=${encodeURIComponent(
       subject,
     )}&body=${encodeURIComponent(briefText)}`;
@@ -93,11 +105,12 @@ export function BriefBuilderSection() {
 
   const whatsappHref = useMemo(() => {
     const cleanNum = SITE_CONFIG.whatsappNumber.replace(/\D/g, "");
-    if (!cleanNum) return "";
+    if (!cleanNum || !hasContent) return "";
     return `https://wa.me/${cleanNum}?text=${encodeURIComponent(briefText)}`;
-  }, [briefText]);
+  }, [hasContent, briefText]);
 
   const handleCopy = async () => {
+    if (!hasContent) return;
     try {
       await navigator.clipboard.writeText(briefText);
       setCopied(true);
@@ -112,7 +125,7 @@ export function BriefBuilderSection() {
       <SectionHeader
         code="// 07"
         title="Solicitar Piloto o Alianza · Generador de Brief"
-        subtitle="Estructura los requerimientos de tu territorio o proyecto en menos de 60 segundos y envíalo directo a nuestro equipo."
+        subtitle="Selecciona o completa solo lo que aplique a tu territorio: el brief se arma en tiempo real listo para enviar."
       />
 
       <div className="bio-panel-savia rounded-3xl p-6 sm:p-8">
@@ -131,7 +144,9 @@ export function BriefBuilderSection() {
                     <button
                       key={type}
                       type="button"
-                      onClick={() => setProjectType(type)}
+                      onClick={() =>
+                        toggleSingle(projectType, type, setProjectType)
+                      }
                       className={`cursor-pointer rounded-xl border px-3.5 py-2 text-xs font-medium transition-all ${
                         active
                           ? "border-[#10B981] bg-[#10B981]/15 text-[#34D399]"
@@ -254,7 +269,9 @@ export function BriefBuilderSection() {
                     <button
                       key={opt}
                       type="button"
-                      onClick={() => setConnectivity(opt)}
+                      onClick={() =>
+                        toggleSingle(connectivity, opt, setConnectivity)
+                      }
                       className={`cursor-pointer rounded-lg border px-3 py-2 text-left text-xs transition-all ${
                         connectivity === opt
                           ? "border-[#38BDF8] bg-[#38BDF8]/10 text-[#F8FAFC]"
@@ -276,7 +293,7 @@ export function BriefBuilderSection() {
                     <button
                       key={opt}
                       type="button"
-                      onClick={() => setScale(opt)}
+                      onClick={() => toggleSingle(scale, opt, setScale)}
                       className={`cursor-pointer rounded-lg border px-3 py-2 text-left text-xs transition-all ${
                         scale === opt
                           ? "border-[#F97316] bg-[#F97316]/10 text-[#F8FAFC]"
@@ -318,19 +335,39 @@ export function BriefBuilderSection() {
                   <span>VISTA PREVIA DEL BRIEF</span>
                 </span>
                 <span className="rounded bg-[#10B981]/15 px-2 py-0.5 font-mono text-[10px] text-[#34D399]">
-                  EN VIVO
+                  {hasContent ? "LISTO PARA ENVIAR" : "EN ESPERA"}
                 </span>
               </div>
 
-              <pre className="mt-4 overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-[#CBD5E1]">
-                {briefText}
-              </pre>
+              {hasContent ? (
+                <pre className="mt-4 overflow-x-auto whitespace-pre-wrap font-mono text-xs leading-relaxed text-[#CBD5E1]">
+                  {briefText}
+                </pre>
+              ) : (
+                <div className="mt-6 rounded-xl border border-dashed border-white/[0.1] bg-white/[0.02] p-4 text-center">
+                  <p className="font-mono text-xs text-[#94A3B8]">
+                    Empieza seleccionando una opción o escribiendo un dato a la
+                    izquierda.
+                  </p>
+                  <p className="mt-1.5 text-[11px] text-[#64748B]">
+                    Solo aparecerán en el brief los campos que completes.
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="mt-6 space-y-2.5 border-t border-white/[0.08] pt-4">
               <a
-                href={mailtoHref}
-                className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-[#10B981] px-4 py-2.5 font-mono text-xs font-bold tracking-wider text-[#04130D] uppercase transition-all hover:-translate-y-0.5 hover:bg-[#34D399]"
+                href={hasContent ? mailtoHref : undefined}
+                aria-disabled={!hasContent}
+                onClick={(e) => {
+                  if (!hasContent) e.preventDefault();
+                }}
+                className={`inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-mono text-xs font-bold tracking-wider uppercase transition-all ${
+                  hasContent
+                    ? "bg-[#10B981] text-[#04130D] hover:-translate-y-0.5 hover:bg-[#34D399]"
+                    : "cursor-not-allowed bg-white/[0.06] text-[#64748B]"
+                }`}
               >
                 <Mail className="h-4 w-4" aria-hidden="true" />
                 <span>Enviar Brief por Correo</span>
@@ -350,8 +387,13 @@ export function BriefBuilderSection() {
 
               <button
                 type="button"
+                disabled={!hasContent}
                 onClick={handleCopy}
-                className="inline-flex min-h-[40px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.03] px-4 py-2 font-mono text-xs font-semibold text-[#CBD5E1] transition-colors hover:border-white/25 hover:text-white"
+                className={`inline-flex min-h-[40px] w-full items-center justify-center gap-2 rounded-xl border px-4 py-2 font-mono text-xs font-semibold transition-colors ${
+                  hasContent
+                    ? "cursor-pointer border-white/[0.12] bg-white/[0.03] text-[#CBD5E1] hover:border-white/25 hover:text-white"
+                    : "cursor-not-allowed border-white/[0.06] bg-transparent text-[#64748B]"
+                }`}
               >
                 {copied ? (
                   <>
