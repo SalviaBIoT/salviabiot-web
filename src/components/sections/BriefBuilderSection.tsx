@@ -1,4 +1,13 @@
-import { Check, Copy, Mail, MessageSquare, Send } from "lucide-react";
+import {
+  AlertCircle,
+  Check,
+  CheckCircle2,
+  Copy,
+  Loader2,
+  Mail,
+  MessageSquare,
+  Send,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import { SITE_CONFIG } from "../../data/ecosystem";
 import { SectionHeader } from "../common/SectionHeader";
@@ -30,6 +39,8 @@ const SCALE_OPTIONS = [
   "+10 nodos / Red territorial",
 ] as const;
 
+type SendState = "idle" | "sending" | "sent" | "fallback";
+
 export function BriefBuilderSection() {
   const [projectType, setProjectType] = useState<string>("");
   const [name, setName] = useState("");
@@ -41,11 +52,14 @@ export function BriefBuilderSection() {
   const [scale, setScale] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [copied, setCopied] = useState(false);
+  const [sendState, setSendState] = useState<SendState>("idle");
+  const [sendMessage, setSendMessage] = useState("");
 
   const toggleDomain = (item: string) => {
     setDomains((prev) =>
       prev.includes(item) ? prev.filter((d) => d !== item) : [...prev, item],
     );
+    if (sendState !== "idle") setSendState("idle");
   };
 
   const toggleSingle = (
@@ -54,6 +68,7 @@ export function BriefBuilderSection() {
     setter: (value: string) => void,
   ) => {
     setter(current === next ? "" : next);
+    if (sendState !== "idle") setSendState("idle");
   };
 
   const briefLines = useMemo(() => {
@@ -120,12 +135,57 @@ export function BriefBuilderSection() {
     }
   };
 
+  const handleAutomatedSend = async () => {
+    if (!hasContent || sendState === "sending") return;
+    setSendState("sending");
+    setSendMessage("");
+
+    try {
+      const resp = await fetch("/api/brief", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          briefText,
+          projectType,
+          name: name.trim(),
+          organization: organization.trim(),
+          location: location.trim(),
+          contact: contact.trim(),
+          domains,
+          connectivity,
+          scale,
+          notes: notes.trim(),
+        }),
+      });
+
+      const data = await resp.json().catch(() => ({}));
+      if (resp.ok && data?.ok) {
+        setSendState("sent");
+        setSendMessage(
+          `Brief enviado automáticamente por Savia a ${SITE_CONFIG.emails.partnerships}.`,
+        );
+        return;
+      }
+
+      setSendState("fallback");
+      setSendMessage(
+        data?.message ||
+          "El envío automático está pendiente de activar; puedes copiar el brief o enviarlo desde tu correo.",
+      );
+    } catch {
+      setSendState("fallback");
+      setSendMessage(
+        "No se pudo conectar con el servidor de envío; copia el brief o usa tu cliente de correo.",
+      );
+    }
+  };
+
   return (
     <section id="brief" className="scroll-reveal scroll-mt-24 py-12">
       <SectionHeader
         code="// 07"
         title="Solicitar Piloto o Alianza · Generador de Brief"
-        subtitle="Selecciona o completa solo lo que aplique a tu territorio: el brief se arma en tiempo real listo para enviar."
+        subtitle="Selecciona o completa solo lo que aplique a tu territorio: Savia estructura el brief y lo envía directo a nuestro equipo sin abrir apps externas."
       />
 
       <div className="bio-panel-savia rounded-3xl p-6 sm:p-8">
@@ -357,21 +417,52 @@ export function BriefBuilderSection() {
             </div>
 
             <div className="mt-6 space-y-2.5 border-t border-white/[0.08] pt-4">
-              <a
-                href={hasContent ? mailtoHref : undefined}
-                aria-disabled={!hasContent}
-                onClick={(e) => {
-                  if (!hasContent) e.preventDefault();
-                }}
+              {/* Botón principal: envío directo automatizado por Savia (/api/brief) */}
+              <button
+                type="button"
+                disabled={!hasContent || sendState === "sending"}
+                onClick={handleAutomatedSend}
                 className={`inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-mono text-xs font-bold tracking-wider uppercase transition-all ${
-                  hasContent
-                    ? "bg-[#10B981] text-[#04130D] hover:-translate-y-0.5 hover:bg-[#34D399]"
+                  hasContent && sendState !== "sending"
+                    ? "cursor-pointer bg-[#10B981] text-[#04130D] hover:-translate-y-0.5 hover:bg-[#34D399]"
                     : "cursor-not-allowed bg-white/[0.06] text-[#64748B]"
                 }`}
               >
-                <Mail className="h-4 w-4" aria-hidden="true" />
-                <span>Enviar Brief por Correo</span>
-              </a>
+                {sendState === "sending" ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                    <span>Enviando vía Savia...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" aria-hidden="true" />
+                    <span>Enviar Brief Directo</span>
+                  </>
+                )}
+              </button>
+
+              {sendState === "sent" && (
+                <div className="flex items-start gap-2 rounded-xl border border-[#10B981]/40 bg-[#10B981]/10 p-3 text-xs text-[#34D399]">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{sendMessage}</span>
+                </div>
+              )}
+
+              {sendState === "fallback" && (
+                <div className="space-y-2 rounded-xl border border-[#FACC15]/30 bg-[#FACC15]/10 p-3 text-xs text-[#FDE68A]">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                    <span>{sendMessage}</span>
+                  </div>
+                  <a
+                    href={mailtoHref}
+                    className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold text-[#FACC15] underline underline-offset-2"
+                  >
+                    <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span>Abrir en cliente de correo ({SITE_CONFIG.emails.partnerships})</span>
+                  </a>
+                </div>
+              )}
 
               {whatsappHref && (
                 <a
