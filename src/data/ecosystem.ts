@@ -50,7 +50,46 @@ export const SITE_CONFIG = {
     partnerships: "contacto@salviabiot.com",
     system: "savia@salviabiot.com",
   },
+  whatsappNumber: (import.meta.env.VITE_WHATSAPP_NUMBER ?? "") as string,
   githubOrg: "https://github.com/SalviaBIoT",
+  socials: [
+    {
+      id: "linkedin",
+      label: "LinkedIn",
+      handle: "company/salviabiot",
+      url: "https://www.linkedin.com/company/salviabiot",
+    },
+    {
+      id: "instagram",
+      label: "Instagram",
+      handle: "@salviabiot",
+      url: "https://www.instagram.com/salviabiot/",
+    },
+    {
+      id: "facebook",
+      label: "Facebook",
+      handle: "/salviabiot",
+      url: "https://www.facebook.com/salviabiot/",
+    },
+    {
+      id: "x",
+      label: "X",
+      handle: "@SalviaBIoT",
+      url: "https://x.com/SalviaBIoT",
+    },
+    {
+      id: "youtube",
+      label: "YouTube",
+      handle: "@SalviaBIoT",
+      url: "https://www.youtube.com/@SalviaBIoT",
+    },
+    {
+      id: "github",
+      label: "GitHub",
+      handle: "@SalviaBIoT",
+      url: "https://github.com/SalviaBIoT",
+    },
+  ],
 } as const;
 
 export const HUD_METRICS = [

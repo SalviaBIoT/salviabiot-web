@@ -3,6 +3,7 @@ import { PlatformDialog } from "./components/common/PlatformDialog";
 import { Footer } from "./components/layout/Footer";
 import { Navbar } from "./components/layout/Navbar";
 import { AIEcosystemModule } from "./components/sections/AIEcosystemModule";
+import { BriefBuilderSection } from "./components/sections/BriefBuilderSection";
 import { DataCycleSection } from "./components/sections/DataCycleSection";
 import { EcosystemOverview } from "./components/sections/EcosystemOverview";
 import { HeroSection } from "./components/sections/HeroSection";
@@ -33,6 +34,7 @@ export function App() {
           <PlatformGateway
             onOpenPlatformGateway={() => setPlatformDialogOpen(true)}
           />
+          <BriefBuilderSection />
         </div>
       </main>
 

@@ -63,16 +63,32 @@ export function Footer({ onOpenPlatformGateway }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={SITE_CONFIG.githubOrg}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 transition-colors hover:text-[#34D399]"
+                  href="#brief"
+                  className="transition-colors hover:text-[#34D399]"
                 >
-                  <span>GitHub · @SalviaBIoT</span>
-                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                  Solicitar Piloto · Generador de Brief
                 </a>
               </li>
             </ul>
+
+            <h3 className="mt-6 font-mono text-[11px] font-semibold tracking-[0.15em] text-[#94A3B8] uppercase">
+              // Redes Oficiales
+            </h3>
+            <div className="mt-2.5 flex flex-wrap gap-2">
+              {SITE_CONFIG.socials.map((social) => (
+                <a
+                  key={social.id}
+                  href={social.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${social.label} de SalviaBIoT`}
+                  className="inline-flex items-center gap-1 rounded-lg border border-white/[0.1] bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-[#CBD5E1] transition-colors hover:border-[#10B981]/50 hover:text-[#34D399]"
+                >
+                  <span>{social.label}</span>
+                  <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Canales Oficiales */}
